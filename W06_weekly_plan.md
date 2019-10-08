@@ -1,4 +1,4 @@
-# Week 5 Weekly Plan
+# Week 6 Weekly Plan
 
 ## Overview of Week
 After working further towards getting a working user login and Spotify API Integration, it is time to start building core functionality of the app. This week, the goal it to get some sort of song/playlist functionality up and running.
