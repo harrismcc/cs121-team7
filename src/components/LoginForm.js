@@ -33,7 +33,6 @@ export default class LoginForm extends Component {
               amountOfTries++;
               if (amountOfTries > 1) {
                 this.onLoginFailure.bind(this)('Looks like you forgot your password...')
-                {this.renderButton3()}
               }
 
             }
@@ -90,6 +89,40 @@ export default class LoginForm extends Component {
       
   }
 
+  // sends reset password link
+  resetAccount() {
+    var errorFound = 0
+    this.setState({ error: '', loadingB: true })
+    const { email, password } = this.state;
+    // Submit login information to the Firebase database to create new user
+    // Check to make sure that they don't already have an account
+        firebase.auth().sendPasswordResetEmail(email)
+          .then(this.onLoginSuccess.bind(this))
+          // If there is an error print error message
+          .catch((error) => {
+            let errorCode = error.code
+            let errorMessage = error.message;
+            errorFound = 1
+            if (errorCode == 'auth/email-already-in-use') {
+              this.onLoginFailure.bind(this)('You already have an account. Try logging in.')
+            }
+            else if (errorCode == 'auth/invalid-email') {
+              this.onLoginFailure.bind(this)('Please enter a valid email.')
+            }
+            else if (errorCode == 'auth/weak-password') {
+              this.onLoginFailure.bind(this)('Password must be greater than 5 characters.')
+            }
+            else {
+            this.onLoginFailure.bind(this)(errorCode)
+          }
+          }
+        );
+        if (errorFound == 0) {
+          this.onLoginFailure.bind(this)('Check your email to reset your password.')
+          errorFound = 0
+      }
+        }
+          
   // Update variable to move us to the home screen
   onLoginSuccess() {
     this.setState({
@@ -150,13 +183,13 @@ export default class LoginForm extends Component {
     } else {
       return (
         <Button
+          div id = "Reset"
           type = "outline"
           title="Reset Password"
-          onPress={this.createAccount.bind(this)}
+          onPress={this.resetAccount.bind(this)}
         />
       )
-    }
-  }
+    }};
 
   render() {
     return (
@@ -175,7 +208,7 @@ export default class LoginForm extends Component {
 
         {this.renderButton()}
         {this.renderButton2()}
-        
+        {this.renderButton3()}
         
         <Text style={styles.errorTextStyle}>
           {this.state.error}
