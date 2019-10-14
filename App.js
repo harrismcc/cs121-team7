@@ -4,8 +4,62 @@ import firebase from 'firebase';
 import Header from './src/components/Header';
 import LoginForm from './src/components/LoginForm';
 
+// @Nick this is new1 ########################
+import hash from "./hash";
+import logo from "./logo.svg";
+import "./App.css"; //@Nick idk if we need this
+
+import * as $ from "jquery";
+import Player from "./Player";
+
+export const authEndpoint = 'https://accounts.spotify.com/authorize';
+
+// Replace with your app's client ID, redirect URI and desired scopes
+const clientId = "YOUR_CLIENT_ID_GOES_HERE";
+const redirectUri = "http://localhost:3000";
+const scopes = [
+  "user-read-currently-playing",
+  "user-read-playback-state",
+];
+// Get the hash of the url
+const hash = window.location.hash
+  .substring(1)
+  .split("&")
+  .reduce(function(initial, item) {
+    if (item) {
+      var parts = item.split("=");
+      initial[parts[0]] = decodeURIComponent(parts[1]);
+    }
+    return initial;
+  }, {});
+
+window.location.hash = "";
+
+// @Nick end new1 ########################
+
 export default class App extends Component {
   state = { loggedIn: null };
+  
+  // @Nick this new1.1 ########################
+  constructor() {
+    super();
+    this.state = {
+      token: null,
+      item: {
+        album: {
+          images: [{ url: "" }]
+        },
+        name: "",
+        artists: [{ name: "" }],
+        duration_ms:0,
+      },
+      is_playing: "Paused",
+      progress_ms: 0
+    };
+    this.getCurrentlyPlaying = this.getCurrentlyPlaying.bind(this);
+  }
+  // @Nick this ends new1.1 ########################
+
 
   // note: do not add real config info till launch (one app is secured and in closed repository)
   componentDidMount() {
@@ -20,6 +74,15 @@ export default class App extends Component {
       measurementId: "G-M00PCR1CB5"
     };
 
+    // @Nick this is new2 ########################
+    let _token = hash.access_token;
+    if (_token) {
+      // Set token
+      this.setState({
+        token: _token
+      });
+      // @Nick end new2 ########################
+
     firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -29,6 +92,7 @@ export default class App extends Component {
       }
     })
   }
+}
 
   renderComponent() {
     if (this.state.loggedIn) {
@@ -41,12 +105,57 @@ export default class App extends Component {
       )
     }
   }
+  // @Nick this starts new1.2 ########################
+  getCurrentlyPlaying(token) {
+    // Make a call using the token
+    $.ajax({
+      url: "https://api.spotify.com/v1/me/player",
+      type: "GET",
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      success: (data) => {
+        console.log("data", data);
+        this.setState({
+          item: data.item,
+          is_playing: data.is_playing,
+          progress_ms: data.progress_ms,
+        });
+      }
+    });
+  }
+  // @Nick this ends new1.2 ########################
   render() {
     return (
       <View>
         <Header title='Sharify' />
         {this.renderComponent()}
+      
+      // @Nick this is new3 ########################
+      <div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+            {!this.state.token && (
+              <a
+                className="btn btn--loginApp-link"
+                href={`${authEndpoint}client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
+              >
+                Login to Spotify
+              </a>
+            )}
+            {this.state.token && (
+              <Player
+                item={this.state.item}
+                is_playing={this.state.is_playing}
+                progress_ms={this.progress_ms}
+              />
+            )}
+        </header>
+      </div>
+      
+      // @Nick end new3 ########################
       </View>
     );
   }
 }
+
