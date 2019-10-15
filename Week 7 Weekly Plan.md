@@ -4,7 +4,7 @@
 The goal is to get some of the song/playlist functionality up and running that we have been unable to complete in previous weeks. We will have Spotify integrated into the application, a basic UI for users to be able to play a song / pause / skip to another song.
 
 ## Backlog Changes
-We have not been able to integrate Spotify using the verification process they describe. Thus, we have pushed all those tasks that didn't get done to this week.
+We are just now finishing up the Spotify API integration. Priority for this week is to create a working playlist screen where songs can be clicked and played.
 
 ## Weekly Plan
 Note: This is the same as last week's since we are pusing things back that didn't get done
