@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Image } from 'react-native';
 import firebase from 'firebase';
 import Header from './src/components/Header';
 import LoginForm from './src/components/LoginForm';
 
 // @Nick this is new1 ########################
 import hash from "./hash";
-//import logo from "./logo.svg";
+import logo from "./logo.svg";
 //import "./App.css"; //@Nick idk if we need this
 
 import * as $ from "jquery";
@@ -121,7 +121,7 @@ export default class App extends Component {
         {this.renderComponent()}
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <Image source ={require("logo.svg")} />
           //math for connecting to Spotify API
             {!this.state.token && (
               <a
