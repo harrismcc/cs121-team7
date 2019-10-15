@@ -9,7 +9,7 @@ import hash from "./hash";
 //import logo from "./logo.svg";
 //import "./App.css"; //@Nick idk if we need this
 
-//import * as $ from "jquery";
+import * as $ from "jquery";
 //import Player from "./Player";
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
@@ -114,24 +114,27 @@ export default class App extends Component {
   }
   // @Nick this ends new1.2 ########################
   render() {
+    // render funciton
     return (
       <View>
         <Header title='Sharify' />
         {this.renderComponent()}
-      
-      // @Nick this is new3 ########################
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          //math for connecting to Spotify API
             {!this.state.token && (
               <a
                 className="btn btn--loginApp-link"
-                href={`${authEndpoint}client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
+                href={`${authEndpoint}client_id=${clientId}
+                &redirect_uri=${redirectUri}&scope=${scopes.join("%20")}
+                &response_type=token&show_dialog=true`}
               >
                 Login to Spotify
               </a>
             )}
             {this.state.token && (
+              // this is the spotify player
               <Player
                 item={this.state.item}
                 is_playing={this.state.is_playing}
@@ -140,8 +143,6 @@ export default class App extends Component {
             )}
         </header>
       </div>
-      
-      // @Nick end new3 ########################
       </View>
     );
   }
