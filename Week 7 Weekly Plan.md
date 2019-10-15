@@ -9,13 +9,13 @@ We have not been able to integrate Spotify using the verification process they d
 ## Weekly Plan
 Note: This is the same as last week's since we are pusing things back that didn't get done
 **Overview**
-![empty](https://i.imgur.com/iBYuNWF.png)
+![empty](https://i.imgur.com/tnU0pA2.png)
 **Breakdown**
-![task1](https://i.imgur.com/30cng7r.png)
-![task2](https://i.imgur.com/Im8lwmG.png)
-![task3](https://i.imgur.com/1GyJuK0.png)
-![task4](https://i.imgur.com/hB2NFoW.png)
-![task5](https://i.imgur.com/2wvrRPp.png)
+![task1](https://i.imgur.com/IHuJFs3.png)
+![task2](https://i.imgur.com/VY6gWh4.png)
+![task3](https://i.imgur.com/vBvpyyh.png)
+![task4](https://i.imgur.com/4gRfwEp.png)
+![task5](https://i.imgur.com/8yAqavh.png)
 
 ## Stretch Tasks
 * Connect app to Spotify API [issue 10]
