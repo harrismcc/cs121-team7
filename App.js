@@ -6,11 +6,11 @@ import LoginForm from './src/components/LoginForm';
 
 // @Nick this is new1 ########################
 import hash from "./hash";
-import logo from "./logo.svg";
+//import logo from "./logo.svg";
 //import "./App.css"; //@Nick idk if we need this
 
-import * as $ from "jquery";
-import Player from "./Player";
+//import * as $ from "jquery";
+//import Player from "./Player";
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 
@@ -22,19 +22,6 @@ const scopes = [
   "user-read-currently-playing",
   "user-read-playback-state",
 ];
-// Get the hash of the url
-const hash = window.location.hash
-  .substring(1)
-  .split("&")
-  .reduce(function(initial, item) {
-    if (item) {
-      var parts = item.split("=");
-      initial[parts[0]] = decodeURIComponent(parts[1]);
-    }
-    return initial;
-  }, {});
-
-window.location.hash = "";
 
 // @Nick end new1 ########################
 
