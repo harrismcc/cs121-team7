@@ -7,7 +7,7 @@ import LoginForm from './src/components/LoginForm';
 // @Nick this is new1 ########################
 import hash from "./hash";
 import logo from "./logo.svg";
-import "./App.css"; //@Nick idk if we need this
+//import "./App.css"; //@Nick idk if we need this
 
 import * as $ from "jquery";
 import Player from "./Player";
@@ -15,7 +15,8 @@ import Player from "./Player";
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // Replace with your app's client ID, redirect URI and desired scopes
-const clientId = "YOUR_CLIENT_ID_GOES_HERE";
+const clientId = "2b9a23d90f084beeb0ad9a433ae5588f";
+const client_secret = '56b063cc9bc14ffe999815b3e9f874e2'; // Your secret ID
 const redirectUri = "http://localhost:3000";
 const scopes = [
   "user-read-currently-playing",
