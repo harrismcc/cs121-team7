@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Please Work",
+    "name": "Sharify",
     "slug": "Authenticator",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#D3D3D3"
+      "backgroundColor": "#474747"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

@@ -9,7 +9,7 @@ import hash from "./hash";
 import logo from "./logo.svg";
 //import "./App.css"; //@Nick idk if we need this
 
-import * as $ from "jquery";
+import * as $ from "jquery"; //<- This is causing all the problems, the internet says jquery isn't even possible or compatable with react native...
 //import Player from "./Player";
 
 export const authEndpoint = 'https://accounts.spotify.com/authorize';
