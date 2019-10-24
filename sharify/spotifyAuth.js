@@ -3,6 +3,7 @@ import {AuthSession} from 'expo'
 import { AsyncStorage } from 'react-native';
 import { encode as btoa } from 'base-64';
 import { spotifyCredentials } from './secrets.js';
+import SpotifyWebAPI from 'spotify-web-api-js';
 
 //array of scopes for spotify API
 const scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
@@ -99,4 +100,67 @@ export const storeParamsCode = async () => {
   
   
   
+  };
+
+
+  //Get new tokens using the refresh token
+  export const refreshTokens = async () => {
+    try {
+      const credentials = spotifyCredentials;
+      const credsB64 = btoa(`${credentials.clientId}:${credentials.clientSecret}`);
+      const refreshToken = await AsyncStorage.getItem('refreshToken');
+      const response = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+          Authorization: `Basic ${credsB64}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+      });
+      const responseJson = await response.json();
+      if (responseJson.error) {
+        await getSpotifyAPIToken();
+      } else {
+        const {
+          access_token: newAccessToken,
+          refresh_token: newRefreshToken,
+          expires_in: expiresIn,
+        } = responseJson;
+  
+        const expirationTime = new Date().getTime() + expiresIn * 1000;
+
+        await AsyncStorage.setItem('accessToken', newAccessToken);
+        if (newRefreshToken) {
+          
+          await AsyncStorage.setItem('accessToken', accessToken);
+        }
+        
+        await AsyncStorage.setItem('expirationTime', String(expirationTime));
+    }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  
+
+//Function to test if tokens are valid
+export const getValidSPObj = async () => {
+  const tokenExpirationTime = await AsyncStorage.getItem('expirationTime');
+  if (new Date().getTime() > tokenExpirationTime) {
+    // access token has expired, so we need to use the refresh token
+    await refreshTokens();
+  }
+  const accessToken = await AsyncStorage.getItem('accessToken');
+  var sp = new SpotifyWebAPI();
+  await sp.setAccessToken(accessToken);
+  return sp;
+}
+
+//function to get top 100 playlists from user
+export const getUserPlaylists = async () => {
+    const sp = await getValidSPObj();
+    const { id: userId } = await sp.getMe();
+    const { items: playlists } = await sp.getUserPlaylists(userId, { limit: 50 });
+    return playlists;
   };
