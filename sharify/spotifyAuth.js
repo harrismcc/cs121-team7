@@ -131,8 +131,7 @@ export const storeParamsCode = async () => {
 
         await AsyncStorage.setItem('accessToken', newAccessToken);
         if (newRefreshToken) {
-          
-          await AsyncStorage.setItem('accessToken', accessToken);
+          await AsyncStorage.setItem('refreshToken', newRefreshToken);
         }
         
         await AsyncStorage.setItem('expirationTime', String(expirationTime));
