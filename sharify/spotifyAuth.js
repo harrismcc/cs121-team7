@@ -1,9 +1,12 @@
 import React from 'react';
 import {AuthSession} from 'expo'
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Text, View, Button, TouchableOpacity, Image} from 'react-native';
 import { encode as btoa } from 'base-64';
 import { spotifyCredentials } from './secrets.js';
 import SpotifyWebAPI from 'spotify-web-api-js';
+
+//StyleSheet
+import {styles} from './stylesheet.js'
 
 //array of scopes for spotify API
 const scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
@@ -19,6 +22,7 @@ export const deleteAsyncVars = async () => {
     try {
       await AsyncStorage.removeItem('resultParamsCode');
       await AsyncStorage.removeItem('accessToken');
+      await AsyncStorage.removeItem('expirationTime');
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
@@ -74,7 +78,7 @@ export const storeParamsCode = async () => {
       }`,
     });
     let responseJson = await response.json();
-    // destructure the response and rename the properties to be in camelCase to satisfy my linter ;)
+    // destructure the response and rename the properties to be in camelCase
     const {
       access_token: accessToken,
       refresh_token: refreshToken,
@@ -84,13 +88,10 @@ export const storeParamsCode = async () => {
     let expirationTime = new Date().getTime() + expiresIn * 1000;
 
   
-    
     //store access token in AsyncStorage
     await AsyncStorage.setItem('accessToken', accessToken);
-
     //store refreshToken is AsyncStorage
     await AsyncStorage.setItem('refreshToken', refreshToken);
-
     //store expirationTime in AsyncStorage
     await AsyncStorage.setItem('expirationTime', String(expirationTime));
   
@@ -119,6 +120,7 @@ export const storeParamsCode = async () => {
       });
       const responseJson = await response.json();
       if (responseJson.error) {
+        //gets api tokens in the first place, if none are present
         await getSpotifyAPIToken();
       } else {
         const {
@@ -163,3 +165,78 @@ export const getUserPlaylists = async () => {
     const { items: playlists } = await sp.getUserPlaylists(userId, { limit: 50 });
     return playlists;
   };
+
+
+
+////COMPONENTS AND CLASSES////
+//TODO: Move this page into the pages folder
+
+//This is a custom component that is a special button to auth with spotify
+export class SpotifyAuthButton extends React.Component{
+ 
+  state = {
+    result: null,
+  };
+  
+  render() {
+    return (
+       
+      <View style={styles.container}>
+        <View>
+
+          <TouchableOpacity onPress = {this._handlePressAsync}>
+                <View style = {styles.spotifyAuthButton}>
+
+                   <Image
+                   source={require('./assets/spotifyLogo.png')}
+                   style={{height:20, width:20, margin:10}}
+                   />
+           
+                    <Text style = {{color: 'white'}}>Connect To Spotify</Text>
+                </View>
+            </TouchableOpacity>
+
+        </View>
+        {this.state.getValue ? (
+          <Text>API Access Token (Stored in Async Storage): {this.state.getValue}</Text>
+        ) : null}
+
+    </View>
+    );
+  }
+
+  
+  //Press to get auth
+  _handlePressAsync = async() => {
+
+    //validate API link
+    getValidSPObj();
+
+    //grab item from AsyncStorage to display under button
+    await AsyncStorage.getItem('accessToken').then(value =>
+      //AsyncStorage returns a promise so adding a callback to get the value
+      this.setState({ getValue: value })
+      //Setting the value in Text
+      
+    );
+
+    
+  }
+  
+}
+
+//This is the actual page with the spotify auth button
+export class AuthorizeWithSpotify extends React.Component {
+  static navigationOptions = {
+    title: 'Please Authorize With Spotify',
+  };
+  render() {
+    const {navigate} = this.props.navigation;
+    return (
+      <View style={styles.container}>
+        <SpotifyAuthButton></SpotifyAuthButton>
+      </View>
+
+    )
+  }
+}
