@@ -11,7 +11,7 @@ import { encode as btoa } from 'base-64';
 
 import { storeParamsCode, getSpotifyAPIToken, deleteAsyncVars } from "./spotifyAuth.js";
 
-deleteAsyncVars();
+
 
 export default class App extends React.Component {
   state = {
