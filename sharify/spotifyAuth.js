@@ -186,12 +186,10 @@ export class SpotifyAuthButton extends React.Component{
 
           <TouchableOpacity onPress = {this._handlePressAsync}>
                 <View style = {styles.spotifyAuthButton}>
-
                    <Image
                    source={require('./assets/spotifyLogo.png')}
                    style={{height:20, width:20, margin:10}}
                    />
-           
                     <Text style = {{color: 'white'}}>Connect To Spotify</Text>
                 </View>
             </TouchableOpacity>

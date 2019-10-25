@@ -16,5 +16,17 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 15,
         flexDirection:"row",
+    },
+    logo: {
+        position: 'absolute',
+        width: 300,
+        height: 100
+    },
+    title:{
+        color: "#FFF",
+        marginTop: 120,
+        width: 180,
+        textAlign: 'center',
+        opacity: 0.9
     }
   });

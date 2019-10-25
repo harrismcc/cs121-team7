@@ -19,11 +19,8 @@ export class ShowPlaylists extends React.Component {
     this.state = {
       result: null,
     };
-  
    }
     
-  
-  
     render() {
       
       const {navigate} = this.props.navigation;
@@ -31,10 +28,18 @@ export class ShowPlaylists extends React.Component {
         
         <View style={styles.container}>
           <View style={[{margin: 10}]}>
-            <Button  title="auth" onPress={() => navigate('SpotifyAuth')}/>
+            <Button  title="Go To Auth Page" onPress={() => navigate('SpotifyAuth')}/>
           </View>
+          <View style={[{margin: 10}]}>
+            <Button  title="Go To Login Page" onPress={() => navigate('LoginPage')}/>
+          </View>
+          <View style={[{margin: 10}]}>
+            <Button title="Show Playlists" onPress={this._test} />
+          </View>
+
+          
   
-          <Button title="Show Playlists" onPress={this._test} />
+          
   
           
          
