@@ -36,6 +36,9 @@ export class ShowPlaylists extends React.Component {
           <View style={[{margin: 10}]}>
             <Button title="Show Playlists" onPress={this._test} />
           </View>
+          <View style={[{margin: 10}]}>
+            <Button  title="Play Music" onPress={() => navigate('MusicPage')}/>
+          </View>
 
           
   
