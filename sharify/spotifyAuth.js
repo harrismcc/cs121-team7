@@ -168,7 +168,7 @@ export const getValidSPObj = async () => {
   return sp;
 }
 
-//function to get top 100 playlists from user
+//function to get top 50 playlists from user
 export const getUserTopPlaylists = async () => {
     const sp = await getValidSPObj();
     const { id: userId } = await sp.getMe();
@@ -176,6 +176,7 @@ export const getUserTopPlaylists = async () => {
     return playlists;
   };
 
+//pulls a users top 50 tracks
 export const getUserTopTracks = async () => {
   const sp = await getValidSPObj();
   //const { id: userId } = await sp.getMe();
@@ -183,18 +184,26 @@ export const getUserTopTracks = async () => {
   return tracks;
 }
 
+//a test function that takes in values and returns reccomendations
 export const testRec = async (danceabilityVal, energyVal, popularityVal, valenceVal) => {
   const sp = await getValidSPObj();
-  
+
   const {tracks: recs} = await sp.getRecommendations({seed_tracks: '6rPO02ozF3bM7NnOV4h6s2',
                                                        danceability: danceabilityVal,
                                                       energy: energyVal,
                                                       popularity: popularityVal,
                                                       valence: valenceVal});
-  //console.log("Recs: " + JSON.stringify(recs));
   return recs;
 }
 
+
+//an unfinished function to search for a track
+export const searchForTracks = async () => {
+  const sp = await getValidSPObj();
+
+  const {tracks: tracks} = await sp.searchTracks("April Come She Will", {limit: 2});
+  return tracks;
+}
 
 
 ////COMPONENTS AND CLASSES////

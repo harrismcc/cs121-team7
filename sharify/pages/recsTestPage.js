@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { getUserTopPlaylists, getUsertopRecs, testRec} from "../spotifyAuth.js";
+import { testRec} from "../spotifyAuth.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -121,12 +121,6 @@ export class RecsPage extends React.Component {
   
     _test = async () => {
 
-      console.log(this.state.danceabilitySliderValue);
-      
-      //add top playlists to state
-      const playlists = await getUserTopPlaylists();
-      this.setState({accessToken : await AsyncStorage.getItem('accessToken')});
-      this.setState({topPlaylistArray : playlists});
      
       //add top tracks to state
       const topRecs = await testRec({
