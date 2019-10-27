@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { getUserPlaylists} from "../spotifyAuth.js";
+import { getUserTopPlaylists, getUserTopTracks, testRec} from "../spotifyAuth.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -33,25 +33,25 @@ export class ShowPlaylists extends React.Component {
           <View style={[{margin: 10}]}>
             <Button  title="Go To Login Page" onPress={() => navigate('LoginPage')}/>
           </View>
-          <View style={[{margin: 10}]}>
-            <Button title="Show Playlists" onPress={this._test} />
+
+          <View style={[{margin:10, flexDirection: 'row'}]}>
+            <Button style={{margin:5}} title="Show Playlists" onPress={this._test} />
+            <Button style={{margin:5}} title="Recs Test Page" onPress={() => navigate('RecsPage')}/>
           </View>
           <View style={[{margin: 10}]}>
             <Button  title="Play Music" onPress={() => navigate('MusicPage')}/>
           </View>
 
-          
-  
-          
-  
-          
-         
+
           <View style={{height: 400}}>
-            <ScrollView style={styles.scrollview}>
+            <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
             {this.state.topPlaylistArray ? (
               this.state.topPlaylistArray.map((item, key)=>(
-                <Text key={key} style={styles.TextStyle}> { item.name } </Text>)
-                )
+
+                <View key ={key} style={styles.songDisplayRowItem} >
+                  <Text key={key + this.state.topPlaylistArray.length} style={styles.TextStyle}> { item.name }</Text>
+                </View>
+              ))
             ) : null}
             </ScrollView>
           </View>
@@ -61,9 +61,12 @@ export class ShowPlaylists extends React.Component {
   
     _test = async () => {
       
-      const playlists = await getUserPlaylists();
+      //add top playlists to state
+      const playlists = await getUserTopPlaylists();
       this.setState({accessToken : await AsyncStorage.getItem('accessToken')});
       this.setState({topPlaylistArray : playlists});
+      
+     
     }
   
   

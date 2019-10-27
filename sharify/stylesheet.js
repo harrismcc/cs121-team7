@@ -7,6 +7,15 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    labeledSlider: {
+        flex: 1,
+        maxHeight:25,
+        flexDirection: "row",
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+
+    },
     spotifyAuthButton: {
         height: 50, 
         width: 200,
@@ -28,5 +37,14 @@ export const styles = StyleSheet.create({
         width: 180,
         textAlign: 'center',
         opacity: 0.9
+    },
+    songDisplayRowItem: {
+        minWidth: '90%', 
+        maxWidth: '90%', 
+        borderColor: 'black',
+        backgroundColor: 'grey', 
+        marginBottom: 2,
+        borderWidth: 2, 
+        borderRadius: 5
     }
   });

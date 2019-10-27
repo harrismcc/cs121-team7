@@ -46,8 +46,18 @@ export const storeParamsCode = async () => {
     });
     //AFTER TOKEN COMPLETION
     //Place Token in AsyncStorage
-    await AsyncStorage.setItem('resultParamsCode', result.params.code);
-    return result.params.code;
+    try{
+      await AsyncStorage.setItem('resultParamsCode', result.params.code);
+      return result.params.code;
+    }
+    catch(error){
+      //return error message and redirect URI
+      console.log("storeParamsCode() Error: " + error.message);
+      console.log("Redirect URI: " + AuthSession.getRedirectUrl());
+
+      //try again
+      return storeParamsCode();
+    }
   }
 
 
@@ -159,12 +169,31 @@ export const getValidSPObj = async () => {
 }
 
 //function to get top 100 playlists from user
-export const getUserPlaylists = async () => {
+export const getUserTopPlaylists = async () => {
     const sp = await getValidSPObj();
     const { id: userId } = await sp.getMe();
     const { items: playlists } = await sp.getUserPlaylists(userId, { limit: 50 });
     return playlists;
   };
+
+export const getUserTopTracks = async () => {
+  const sp = await getValidSPObj();
+  //const { id: userId } = await sp.getMe();
+  const { items: tracks } = await sp.getMyTopTracks({ limit: 50 });
+  return tracks;
+}
+
+export const testRec = async (danceabilityVal, energyVal, popularityVal, valenceVal) => {
+  const sp = await getValidSPObj();
+  
+  const {tracks: recs} = await sp.getRecommendations({seed_tracks: '6rPO02ozF3bM7NnOV4h6s2',
+                                                       danceability: danceabilityVal,
+                                                      energy: energyVal,
+                                                      popularity: popularityVal,
+                                                      valence: valenceVal});
+  //console.log("Recs: " + JSON.stringify(recs));
+  return recs;
+}
 
 
 
