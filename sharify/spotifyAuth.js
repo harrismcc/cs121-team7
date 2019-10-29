@@ -98,12 +98,17 @@ export const storeParamsCode = async () => {
     let expirationTime = new Date().getTime() + expiresIn * 1000;
 
   
-    //store access token in AsyncStorage
-    await AsyncStorage.setItem('accessToken', accessToken);
-    //store refreshToken is AsyncStorage
-    await AsyncStorage.setItem('refreshToken', refreshToken);
-    //store expirationTime in AsyncStorage
-    await AsyncStorage.setItem('expirationTime', String(expirationTime));
+    try{
+      //store access token in AsyncStorage
+      await AsyncStorage.setItem('accessToken', accessToken);
+      //store refreshToken is AsyncStorage
+      await AsyncStorage.setItem('refreshToken', refreshToken);
+      //store expirationTime in AsyncStorage
+      await AsyncStorage.setItem('expirationTime', String(expirationTime));
+    }
+    catch(error){
+      console.log("Error: " + error);
+    }
   
   
     //TODO: Delete log of access token
