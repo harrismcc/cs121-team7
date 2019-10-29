@@ -84,7 +84,7 @@ export const storeParamsCode = async () => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${
-        credentials.redirectUri
+        AuthSession.getRedirectUrl()
       }`,
     });
     let responseJson = await response.json();
