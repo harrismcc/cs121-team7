@@ -7,7 +7,7 @@ We want to further develop the recommendation engine (RE), establish a more usef
 //
 
 ## Weekly Plan
-Note: This is the same as last week's since we are pusing things back that didn't get done
+Note: This week has some of the same tasks as last week's since we are pusing things back that didn't get done, but also includes new tasks.
 **Overview**
 ![empty](https://i.imgur.com/tnU0pA2.png)
 **Breakdown**
@@ -18,7 +18,6 @@ Note: This is the same as last week's since we are pusing things back that didn'
 ![task5](https://i.imgur.com/8yAqavh.png)
 
 ## Stretch Tasks
-* Connect app to Spotify API [issue 10]
 * Displaying data from a search [issue 9]
 * Playing a song that is clicked on [issue 9]
 
