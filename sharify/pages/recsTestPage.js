@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { testRec} from "../spotifyAuth.js";
+import { testRec } from "../spotifyAuth.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'

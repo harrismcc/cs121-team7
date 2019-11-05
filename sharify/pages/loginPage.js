@@ -5,6 +5,9 @@ import {styles} from '../stylesheet.js'
 import LoginForm from '../src/components/LoginForm';
 
 export class LoginFormPage extends Component {
+  static navigationOptions = {
+    title: 'Welcome!',
+  };
   state = { loggedIn: null };
 
   // note: do not add real config info till launch (one app is secured and in closed repository)

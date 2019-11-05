@@ -3,6 +3,8 @@ import { Text, View, Button, ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { getUserTopPlaylists, getUserTopTracks, testRec} from "../spotifyAuth.js";
 
+// This page also has the buttons to navigate to other pages
+
 //StyleSheet
 import {styles} from '../stylesheet.js'
 
@@ -34,14 +36,16 @@ export class ShowPlaylists extends React.Component {
             <Button  title="Go To Login Page" onPress={() => navigate('LoginPage')}/>
           </View>
 
-          <View style={[{margin:10, flexDirection: 'row'}]}>
-            <Button style={{margin:5}} title="Show Playlists" onPress={this._test} />
-            <Button style={{margin:5}} title="Recs Test Page" onPress={() => navigate('RecsPage')}/>
+          <View style={[{margin:5, flexDirection: 'row'}]}>
+            <Button title="Show Playlists" onPress={this._test} />
+            <Button title="Recs Test Page" onPress={() => navigate('RecsPage')}/>
           </View>
-          <View style={[{margin: 10}]}>
-            <Button  title="Play Music" onPress={() => navigate('MusicPage')}/>
+          <View style={[{margin: 5}]}>
+            <Button title="Host Playlist" onPress={() => navigate('HostPage')}/>
           </View>
-
+          <View style={[{margin: 5}]}>
+            <Button title="Join Playlist" onPress={() => navigate('JoinPage')}/>
+          </View>
 
           <View style={{height: 400}}>
             <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>

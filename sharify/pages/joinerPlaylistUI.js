@@ -3,9 +3,9 @@ import { View, Button, Text } from 'react-native';
 import firebase from 'firebase';
 import {styles} from '../stylesheet.js'
 
-export default class playSongPage extends Component {
+export default class joinerPage extends Component {
     static navigationOptions = {
-        title: 'Playing Song Sample <Despacito>',
+        title: 'Join Page',
       };
 
     // Hard-coded song data to be changed to play any song
@@ -20,7 +20,7 @@ export default class playSongPage extends Component {
         return (
             <View style = {{ flex: 1, justifyContent: "center",
             alignItems: "center"}}>
-            <Text>Playing song, {this.state.currentSong}. </Text>
+            <Text>Welcome, Guest. </Text>
             </View>
         );
     }

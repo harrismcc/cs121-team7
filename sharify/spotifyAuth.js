@@ -1,6 +1,6 @@
 import React from 'react';
-import {AuthSession} from 'expo'
-import { AsyncStorage, Text, View, Button, TouchableOpacity, Image} from 'react-native';
+import { AuthSession } from 'expo'
+import { AsyncStorage, Text, View, Button, TouchableOpacity, Image } from 'react-native';
 import { encode as btoa } from 'base-64';
 import { spotifyCredentials } from './secrets.js';
 import SpotifyWebAPI from 'spotify-web-api-js';
@@ -11,7 +11,7 @@ import {styles} from './stylesheet.js'
 //array of scopes for spotify API
 const scopesArr = ['user-modify-playback-state','user-read-currently-playing','user-read-playback-state','user-library-modify',
                    'user-library-read','playlist-read-private','playlist-read-collaborative','playlist-modify-public',
-                   'playlist-modify-private','user-read-recently-played','user-top-read'];
+                   'playlist-modify-private','user-read-recently-played','user-top-read', 'user-read-private','user-read-email'];
 const scopes = scopesArr.join(' ');
 
 
@@ -201,6 +201,13 @@ export const testRec = async (danceabilityVal, energyVal, popularityVal, valence
   return recs;
 }
 
+// creates a playlist in a user's account
+export const createNewPlaylist = async () => {
+  const sp = await getValidSPObj();
+  //const { id: userId } = await sp.getMe();
+  const { items: tracks } = await sp.getMyTopTracks({ limit: 50 });
+  return tracks;
+}
 
 //an unfinished function to search for a track
 export const searchForTracks = async () => {

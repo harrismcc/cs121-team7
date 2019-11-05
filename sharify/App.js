@@ -11,6 +11,8 @@ import { RecsPage } from "./pages/recsTestPage.js"
 
 //exporting one thing by default so don't use {}
 import PlaySong from "./pages/playSong.js"
+import HostPage from "./pages/hostPlaylistUI.js"
+import JoinPage from "./pages/joinerPlaylistUI.js"
 
 //CLEAR ON EACH RUN FOR DEBUGGING
 //TODO: Delete this AsyncStorage clear
@@ -23,7 +25,9 @@ const MainNavigator = createStackNavigator({
   SpotifyAuth: {screen: AuthorizeWithSpotify},
   LoginPage: {screen: LoginFormPage},
   MusicPage: {screen: PlaySong},
-  RecsPage : {screen: RecsPage}
+  RecsPage : {screen: RecsPage},
+  JoinPage : {screen: JoinPage},
+  HostPage : {screen: HostPage}
 });
 
 //create app from navigator
