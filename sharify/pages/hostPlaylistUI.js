@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, ScrollView } from 'react-native';
 import firebase from 'firebase';
 import { styles } from '../stylesheet.js'
-import { createNewPlaylist, getValidSPObj } from "../spotifyAuth.js";
+import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
 
 export default class hostPage extends Component {
     static navigationOptions = {
@@ -16,14 +16,19 @@ export default class hostPage extends Component {
     this.state = {
             // TODO: tempVar is just to update user of completeness of items (should use objects to return promise notifications)
             "tempVar" : "Hey, user!",
+
             "name" : "Sharify's Auto-Generated Playlist",
             "description" : "Let's go team!",
             
             // Note: isPublic must be set to false for collaborative to work
             "isPublic":false,
             "isCollab":true,
+            "playlist_id":"4GC3oUR910gclPtJUpReY9",
+            "playlist_id2":"37i9dQZF1DX0IlCGIUGBsA",
 
-            playlist_id:"4GC3oUR910gclPtJUpReY9"
+            // Note: these must be URIs not just the songIDs
+            "song1ToAdd":"spotify:track:29vPsCpO1i4DN2V5F9MSWi",
+            "song2ToAdd":"spotify:track:0bjyNIHEPUEXGYFUoYqJni"
          }
 }
 
@@ -41,6 +46,12 @@ export default class hostPage extends Component {
             </View>
             <View style={[{margin: 5}]}>
             <Button title="Create a Playlist" onPress={this._generatePlaylist}/>
+            </View>
+            <View style={[{margin: 5}]}>
+            <Button title="Add songs to a Playlist" onPress={this._addToPlaylists}/>
+            </View>
+            <View style={[{margin: 5}]}>
+            <Button title="Merge Two Playlists" onPress={this._addToptracksToPlaylists}/>
             </View>
             </View>
         );
@@ -101,8 +112,38 @@ export default class hostPage extends Component {
         
             };
 
+    _addToPlaylists = async () => {
 
+                    const sp = await getValidSPObj();
+                    const { id: userId } = await sp.getMe(); 
+
+                    var songs = [this.state.song1ToAdd, this.state.song2ToAdd]
+                    sp.addTracksToPlaylist(this.state.playlist_id, songs )
+                    
+                    this.setState({
+                        "tempVar": "The songs in the array were added."
+                    }, () => {
+                    });
             
+}
+
+    _addToptracksToPlaylists = async () => {
+    
+                    const sp = await getValidSPObj();
+                    const { id: userId } = await sp.getMe(); 
+
+                    //var songs = []
+                    //songs = sp.getPlaylistTracks(this.state.playlist_id2, songs )
+                    //
+                    const songs = await getUserTopTracks();
+                    sp.addTracksToPlaylist(this.state.playlist_id, songs )
+
+                    this.setState({
+                        "tempVar": "Your favorite songs have been added to the collaborative playlist."
+                    }, () => {
+                    });
+                
+    }
 }
 
 
