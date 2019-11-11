@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, Text, ScrollView } from 'react-native';
+import { View, Button, Text, ScrollView, AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import { styles } from '../stylesheet.js'
 import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
@@ -28,7 +28,18 @@ export default class hostPage extends Component {
 
             // Note: these must be URIs not just the songIDs
             "song1ToAdd":"spotify:track:29vPsCpO1i4DN2V5F9MSWi",
-            "song2ToAdd":"spotify:track:0bjyNIHEPUEXGYFUoYqJni"
+            "song2ToAdd":"spotify:track:0bjyNIHEPUEXGYFUoYqJni", 
+
+            // Maximum number of contributions per member contributing to basic version of playlist generation 
+            // Recommended: Playlist for enjoying old songs and playlist designed for discovering new music
+            // Note: Must be 50 or less
+            maxContributions : 5,
+
+            // For calculations in favorite songs, what time period do we want to base off of? 
+            // Options: long_term (several years), medium_term (last 6 months), short_term (last 4 weeks)
+            // Note: We should have a slider for users to decide
+            timeRange : "medium_term"
+
          }
 }
 
@@ -42,16 +53,13 @@ export default class hostPage extends Component {
             <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
             </View>
             <View style={[{margin: 5}]}>
-            <Button title="Follow a Playlist" onPress={this._followPlaylist}/>
-            </View>
-            <View style={[{margin: 5}]}>
             <Button title="Create a Playlist" onPress={this._generatePlaylist}/>
             </View>
             <View style={[{margin: 5}]}>
-            <Button title="Add songs to a Playlist" onPress={this._addToPlaylists}/>
+            <Button title="Add Defined Songs to a Playlist" onPress={this._addToPlaylists}/>
             </View>
             <View style={[{margin: 5}]}>
-            <Button title="Merge Two Playlists" onPress={this._addToptracksToPlaylists}/>
+            <Button title="Contribute Your Favorites to Playlist" onPress={this._addTopTracksToPlaylists}/>
             </View>
             </View>
         );
@@ -83,6 +91,7 @@ export default class hostPage extends Component {
         
             };
 
+    // This feature was moved to joinerPlaylistUI page but left here just in case (it is not callable from UI now)
     _followPlaylist = async () => {
 
         const sp = await getValidSPObj();
@@ -127,19 +136,25 @@ export default class hostPage extends Component {
             
 }
 
-    _addToptracksToPlaylists = async () => {
+    _addTopTracksToPlaylists = async () => {
     
                     const sp = await getValidSPObj();
                     const { id: userId } = await sp.getMe(); 
 
-                    //var songs = []
-                    //songs = sp.getPlaylistTracks(this.state.playlist_id2, songs )
-                    //
-                    const songs = await getUserTopTracks();
-                    sp.addTracksToPlaylist(this.state.playlist_id, songs )
+                    songs = await sp.getMyTopTracks({"time_range" : this.state.timeRange});
 
+                    // this should loop through until the output is null or until the max number of songs desired is reached rather than
+                    // the current implementation of just brute searching
+                    var index;
+                    var songsParsed = []
+                    for (index = 0; index < this.state.maxContributions; index++) {
+                        songsParsed.push(songs.items[index].uri);
+                    }
+                    
+                    sp.addTracksToPlaylist(this.state.playlist_id, songsParsed);
+                    
                     this.setState({
-                        "tempVar": "Your favorite songs have been added to the collaborative playlist."
+                        "tempVar": "Your favorite songs have been added to the collab playlist.",
                     }, () => {
                     });
                 
