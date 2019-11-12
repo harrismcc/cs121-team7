@@ -14,9 +14,7 @@ import PlaySong from "./pages/playSong.js"
 import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
 
-//CLEAR ON EACH RUN FOR DEBUGGING
-//TODO: Delete this AsyncStorage clear
-AsyncStorage.clear().then(console.log("DELETED"))
+
 
 
 //Init navigator and add pages

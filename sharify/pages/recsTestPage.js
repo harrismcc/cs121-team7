@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { testRec } from "../spotifyAuth.js";
+import {getLastFive} from "../iterRec.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -92,6 +93,7 @@ export class RecsPage extends React.Component {
 
           <View style={[{margin: 10}]}>
             <Button title="Get Recs" onPress={this._test} />
+            
           </View>
           
           
@@ -118,6 +120,7 @@ export class RecsPage extends React.Component {
           </View>
       );
     }
+
   
     _test = async () => {
 
@@ -132,6 +135,8 @@ export class RecsPage extends React.Component {
       this.setState({topTrackArray : topRecs});
 
       await testRec();
+
+      await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
     }
   
   
