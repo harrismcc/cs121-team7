@@ -35,17 +35,62 @@ export const getLastFive = async(playlistID) => {
 
    
     //iterate through last 5 or fewer songs and add to final array
-    for (i = 0; i < songKeysCount-1; i++) {
+    for (i = 0; i < songKeysCount; i++) {
         console.log(songs[slicedKeys[i]].track.name);
-        test[i] = songs[slicedKeys[i]] //add to output
+        finalArray[i] = songs[slicedKeys[i]] //add to output
     }
 
-    //return final five songs 
-    return test;
+    //return final five songs
+    return finalArray;
 }
 
 //      FUNCTION 2 (In: song id array - Out: Json object of floats)
 // 3. get average values of floats from 5 songs
+export const avgValuesOfSongs = async(songArray) => {
+    const sp = await getValidSPObj();
+    let idArray = []
+
+    var songArrayKeys = Object.keys(songArray)
+    var count = songArrayKeys.length;
+
+    for (let i = 0; i <count; i++){
+        idArray[i] = songArray[i].track.id
+    }
+    let data = await sp.getAudioFeaturesForTracks(idArray);
+   
+
+    let avgs = {
+     "acousticness": 0.0,
+      "danceability": 0.0,
+      "duration_ms": 0,
+      "energy": 0.0,
+      "instrumentalness": 0,
+      "key": 0,
+      "liveness": 0,
+      "loudness": 0,
+      "mode": 0,
+      "speechiness": 0,
+      "tempo": 0,
+      "time_signature": 0,
+      "valence": 0,
+    }
+
+
+    
+  
+  
+    for (let songIndex = 0; songIndex < data.audio_features.length; songIndex++){
+        console.log("Item: " + data.audio_features[songIndex]) //grabs each songs floats
+        
+        /*var dataKeys = Object.keys(data)
+        var count = dataKeys.length;
+        for (let valIndex = 0; valIndex <valCount; valIndex++){
+            console.log(data[dataIndex].valkeys[valIndex])
+        }*/
+
+    }
+    
+}
 
 //      FUNCTION 3 (In: firebase group id - Out: Json object of floats)
 // 4. get average values of floats from each user

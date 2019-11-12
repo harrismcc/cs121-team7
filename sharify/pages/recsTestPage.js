@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { testRec } from "../spotifyAuth.js";
-import {getLastFive} from "../iterRec.js";
+import {getLastFive, avgValuesOfSongs} from "../iterRec.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -136,7 +136,8 @@ export class RecsPage extends React.Component {
 
       await testRec();
 
-      await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
+      test = await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
+      avgValuesOfSongs(test)
     }
   
   
