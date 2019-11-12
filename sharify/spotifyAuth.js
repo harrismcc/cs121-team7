@@ -184,7 +184,6 @@ export const getUserTopPlaylists = async () => {
 //pulls a users top 50 tracks
 export const getUserTopTracks = async () => {
   const sp = await getValidSPObj();
-  //const { id: userId } = await sp.getMe();
   const { items: tracks } = await sp.getMyTopTracks({ limit: 50 });
   return tracks;
 }
@@ -193,6 +192,7 @@ export const getUserTopTracks = async () => {
 export const testRec = async (danceabilityVal, energyVal, popularityVal, valenceVal) => {
   const sp = await getValidSPObj();
 
+  //see spotify web API reference for all possible values
   const {tracks: recs} = await sp.getRecommendations({seed_tracks: '6rPO02ozF3bM7NnOV4h6s2',
                                                        danceability: danceabilityVal,
                                                       energy: energyVal,
@@ -212,7 +212,7 @@ export const createNewPlaylist = async () => {
 //an unfinished function to search for a track
 export const searchForTracks = async () => {
   const sp = await getValidSPObj();
-
+  //hardcoded song title, for now
   const {tracks: tracks} = await sp.searchTracks("April Come She Will", {limit: 2});
   return tracks;
 }
