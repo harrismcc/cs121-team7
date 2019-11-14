@@ -40,14 +40,20 @@ export default class joinerPage extends Component {
         _followPlaylist = async () => {
             
                     const sp = await getValidSPObj();
-                    const { id: userId } = await sp.getMe(); 
+                    //const { id: userId } = await sp.getMe(); 
+                    //37i9dQZF1DXcF6B6QPhFDv
+                    try {
+                        await sp.followPlaylist(this.state.playlist_id);
+                        
+                                this.setState({
+                                    "tempVar": "you just followed a playlist created by a Sharify user."
+                                }, () => {
+                                });
+                    } catch (e) {
+                        
+                        console.log(e)
+                    }
                     
-                    sp.followPlaylist(this.state.playlist_id, {public:false});
-                    
-                            this.setState({
-                                "tempVar": "you just followed a playlist created by a Sharify user."
-                            }, () => {
-                            });
                     
         };
 

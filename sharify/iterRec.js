@@ -60,18 +60,18 @@ export const avgValuesOfSongs = async(songArray) => {
    
 
     let avgs = {
-     "acousticness": 0.0,
+      "acousticness": 0.0,
       "danceability": 0.0,
-      "duration_ms": 0,
+      //"duration_ms": 0,
       "energy": 0.0,
       "instrumentalness": 0,
-      "key": 0,
+      "key": 0, //?
       "liveness": 0,
-      "loudness": 0,
+      "loudness": 0, //?
       "mode": 0,
       "speechiness": 0,
       "tempo": 0,
-      "time_signature": 0,
+      //"time_signature": 0,
       "valence": 0,
     }
 
@@ -98,7 +98,7 @@ export const avgValuesOfSongs = async(songArray) => {
 //      4b. for each user, add value of each float to running sum and count users
 //      4c. at the end, div floats by sum to get avgs
 
-//      FUNCTION 5 (In: playlist Id, firebase group id - Out: success bool)
+//      FUNCTION 4 (In: playlist Id, firebase group id - Out: success bool)
 // 5. bring it all together. get 5 songs and avgs, plus avgs
 //      from each user and feed into rec API call for final song
 // 6. add song to playlist
