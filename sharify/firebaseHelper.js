@@ -34,12 +34,7 @@ export const getValueFromUserInDatabase = async(user) => {
        return await ref.doc(user.uid).get().then((doc) => {
             return doc.data()
         })
-        
-    
-
-        
 }
-
 export const setValueFromUserInDatabase = async(user,key,value) => {
     require('firebase/firestore');
         const ref = firebase.firestore().collection('userCollection');
