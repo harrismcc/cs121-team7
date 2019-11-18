@@ -19,8 +19,9 @@ const styles = {
     padding: 9,
     paddingTop: 14,
     borderColor: '#D3D3D3',
-    height: 50,
-    flex: 3,
+    height: 20,
+    width : '100%',
+    flex: 1,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -29,7 +30,7 @@ const styles = {
     fontSize: 20
   },
   textInputStyles: {
-    height: 50,
+    height: 20,
     flex: 2
   }
 }

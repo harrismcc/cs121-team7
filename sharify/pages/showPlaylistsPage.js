@@ -12,6 +12,7 @@ import {styles} from '../stylesheet.js'
 export class ShowPlaylists extends React.Component {
     static navigationOptions = {
       title: 'Show Playlists',
+      backgroundColor: "#339900",
     };
   
    constructor(props) {
@@ -29,7 +30,7 @@ export class ShowPlaylists extends React.Component {
       return (
         
         <View style={styles.container}>
-          <View style={[{margin: 10}]}>
+          <View style={[{margin: 0}]}>
             <Button  title="Go To Auth Page" onPress={() => navigate('SpotifyAuth')}/>
           </View>
           <View style={[{margin: 10}]}>

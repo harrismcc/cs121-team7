@@ -159,7 +159,7 @@ export default class LoginForm extends Component {
     if (this.state.loadingB) {
       return (
         <View style={styles.spinnerStyle}>
-          <ActivityIndicator size={"small"} />
+          <ActivityIndicator size={"large"} />
         </View>
       )
     } else {
@@ -194,8 +194,13 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <View>
-        <Input label="Email"
+      <View style={{
+        backgroundColor: this.state.text,
+        borderBottomColor: '#000000',
+        borderBottomWidth: 1 }}
+        >
+        <Input
+          label="Email"
           placeholder="colleen@CS.com"
           value={this.state.email}
           secureTextEntry={false}

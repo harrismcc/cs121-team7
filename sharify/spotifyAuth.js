@@ -238,9 +238,9 @@ export class SpotifyAuthButton extends React.Component{
                 <View style = {styles.spotifyAuthButton}>
                    <Image
                    source={require('./assets/spotifyLogo.png')}
-                   style={{height:20, width:20, margin:10}}
+                   style={{height : 65, width : 65, margin:10}}
                    />
-                    <Text style = {{color: 'white'}}>Connect To Spotify</Text>
+                    <Text style = {{color: 'white', fontSize : 22}}>Connect To Spotify</Text>
                 </View>
             </TouchableOpacity>
 
@@ -276,7 +276,7 @@ export class SpotifyAuthButton extends React.Component{
 //This is the actual page with the spotify auth button
 export class AuthorizeWithSpotify extends React.Component {
   static navigationOptions = {
-    title: 'Please Authorize With Spotify',
+    title: 'Authorize With Spotify'  
   };
   render() {
     const {navigate} = this.props.navigation;

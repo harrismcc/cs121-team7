@@ -4,6 +4,8 @@ import firebase from 'firebase';
 import {styles} from '../stylesheet.js'
 import LoginForm from '../src/components/LoginForm';
 import {firebaseConfig} from '../secrets.js'
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TabRouter } from 'react-navigation';
 
 export class LoginFormPage extends Component {
   static navigationOptions = {
@@ -43,10 +45,11 @@ export class LoginFormPage extends Component {
   }
   render() {
     return (
-        <View style={{width: 300, flex: 1,
-          backgroundColor: '#fff',
-          alignItems: 'center',
-          justifyContent: 'center'}}>
+        <View style={{width: 300, 
+          flex: 5,
+          backgroundColor: '999999',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start'}}>
             {this.renderComponent()}
         </View>
     );

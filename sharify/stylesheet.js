@@ -3,22 +3,23 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#999999',
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: 40, 
     },
     labeledSlider: {
         flex: 1,
         maxHeight:25,
         flexDirection: "row",
-        backgroundColor: '#fff',
+        backgroundColor: '#339900',
         alignItems: 'center',
         justifyContent: 'center',
 
     },
     spotifyAuthButton: {
-        height: 50, 
-        width: 200,
+        height: 75, 
+        width: 280,
         marginBottom: 10, 
         backgroundColor: '#474747', 
         alignItems: 'center', 
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
         height: 100
     },
     title:{
-        color: "#FFF",
+        color: "#339900",
         marginTop: 120,
         width: 180,
         textAlign: 'center',
