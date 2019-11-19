@@ -142,7 +142,7 @@ export default class hostPage extends Component {
         const { id: userId } = await sp.getMe(); 
 
         songs = await sp.getMyTopTracks({"time_range" : this.state.timeRange});
-
+        
         // this should loop through until the output is null or until the max number of songs desired is reached rather than
         // the current implementation of just brute searching
         var index;
@@ -150,7 +150,7 @@ export default class hostPage extends Component {
         for (index = 0; index < this.state.maxContributions; index++) {
             songsParsed.push(songs.items[index].uri);
         }
-        
+        console.log(songsParsed)
         sp.addTracksToPlaylist(this.state.playlist_id, songsParsed);
         
         this.setState({
