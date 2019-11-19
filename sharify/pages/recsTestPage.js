@@ -133,7 +133,10 @@ export class RecsPage extends React.Component {
                                       valenceVal: this.state.valenceSliderValue
                                     });*/
 
-      const topRecs = await getRecs(getUserFloats())
+      const topRecs = await getRecs(getUserFloats(), [
+        "2Th9BGKvfZG8bKQSACitwG",
+        "5By7Pzgl6TMuVJG168VWzS",
+        "0djZ2ndRfAL69WYNra5jRC"])
       this.setState({topTrackArray : topRecs});
 
       //await testRec();

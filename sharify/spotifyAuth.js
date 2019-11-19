@@ -201,7 +201,8 @@ export const testRec = async (danceabilityVal, energyVal, popularityVal, valence
   return recs;
 }
 
-export const getRecs = async (floats) => {
+export const getRecs = async (floats, songIDList) => {
+
   const sp = await getValidSPObj();
   /*"acousticness": 0.0,
       "danceability": 0.0,
@@ -217,10 +218,7 @@ export const getRecs = async (floats) => {
       //"time_signature": 0,
       "valence": 0, */
   //see spotify web API reference for all possible values
-  const {tracks: recs} = await sp.getRecommendations({seed_tracks:  [
-                                                                    "2Th9BGKvfZG8bKQSACitwG",
-                                                                    "5By7Pzgl6TMuVJG168VWzS",
-                                                                    "0djZ2ndRfAL69WYNra5jRC"],
+  const {tracks: recs} = await sp.getRecommendations({seed_tracks:  songIDList,
                                                       acousticness: floats["acousticness"],
                                                       danceability: floats["danceability"],
                                                       energy: floats["energy"],
