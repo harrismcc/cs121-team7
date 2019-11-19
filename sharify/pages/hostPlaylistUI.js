@@ -114,50 +114,50 @@ export default class hostPage extends Component {
         
         sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
         
-                this.setState({
-                    "tempVar": "You just created a collaborative playlist."
-                }, () => {
-                });
-        
-            };
+            this.setState({
+                "tempVar": "You just created a collaborative playlist."
+            }, () => {
+            });
+    
+        };
 
     _addToPlaylists = async () => {
 
-                    const sp = await getValidSPObj();
-                    const { id: userId } = await sp.getMe(); 
+        const sp = await getValidSPObj();
+        const { id: userId } = await sp.getMe(); 
 
-                    var songs = [this.state.song1ToAdd, this.state.song2ToAdd]
-                    sp.addTracksToPlaylist(this.state.playlist_id, songs )
-                    
-                    this.setState({
-                        "tempVar": "The songs in the array were added."
-                    }, () => {
-                    });
+        var songs = [this.state.song1ToAdd, this.state.song2ToAdd]
+        sp.addTracksToPlaylist(this.state.playlist_id, songs )
+        
+        this.setState({
+            "tempVar": "The songs in the array were added."
+        }, () => {
+        });
             
 }
 
     _addTopTracksToPlaylists = async () => {
     
-                    const sp = await getValidSPObj();
-                    const { id: userId } = await sp.getMe(); 
+        const sp = await getValidSPObj();
+        const { id: userId } = await sp.getMe(); 
 
-                    songs = await sp.getMyTopTracks({"time_range" : this.state.timeRange});
+        songs = await sp.getMyTopTracks({"time_range" : this.state.timeRange});
 
-                    // this should loop through until the output is null or until the max number of songs desired is reached rather than
-                    // the current implementation of just brute searching
-                    var index;
-                    var songsParsed = []
-                    for (index = 0; index < this.state.maxContributions; index++) {
-                        songsParsed.push(songs.items[index].uri);
-                    }
-                    
-                    sp.addTracksToPlaylist(this.state.playlist_id, songsParsed);
-                    
-                    this.setState({
-                        "tempVar": "Your favorite songs have been added to the collab playlist.",
-                    }, () => {
-                    });
-                
+        // this should loop through until the output is null or until the max number of songs desired is reached rather than
+        // the current implementation of just brute searching
+        var index;
+        var songsParsed = []
+        for (index = 0; index < this.state.maxContributions; index++) {
+            songsParsed.push(songs.items[index].uri);
+        }
+        
+        sp.addTracksToPlaylist(this.state.playlist_id, songsParsed);
+        
+        this.setState({
+            "tempVar": "Your favorite songs have been added to the collab playlist.",
+        }, () => {
+        });
+    
     }
 }
 
