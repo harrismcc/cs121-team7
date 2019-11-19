@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { testRec } from "../spotifyAuth.js";
-import {getLastFive, avgValuesOfSongs} from "../iterRec.js";
+import { testRec, getRecs } from "../spotifyAuth.js";
+import {getUserFloats} from "../iterRec.js";
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -126,18 +126,24 @@ export class RecsPage extends React.Component {
 
      
       //add top tracks to state
-      const topRecs = await testRec({
+      /*const topRecs = await testRec({
                                       danceabilityVal: this.state.danceabilitySliderValue,
                                       energyVal: this.state.danceabilitySliderValue,
                                       popularityVal: this.state.popularitySliderValue,
                                       valenceVal: this.state.valenceSliderValue
-                                    });
+                                    });*/
+
+      const topRecs = await getRecs(getUserFloats(), [
+        "2Th9BGKvfZG8bKQSACitwG",
+        "5By7Pzgl6TMuVJG168VWzS",
+        "0djZ2ndRfAL69WYNra5jRC"])
       this.setState({topTrackArray : topRecs});
 
-      await testRec();
+      //await testRec();
 
-      test = await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
-      avgValuesOfSongs(test)
+      //test = await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
+    
+      
     }
   
   

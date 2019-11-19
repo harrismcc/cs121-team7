@@ -1,5 +1,5 @@
 import React from 'react';
-import { testRec, getValidSPObj } from "./spotifyAuth.js";
+import { testRec, getValidSPObj, getUserTopTracks } from "./spotifyAuth.js";
 import SpotifyWebAPI from 'spotify-web-api-js';
 
 
@@ -46,19 +46,14 @@ export const getLastFive = async(playlistID) => {
 
 //      FUNCTION 2 (In: song id array - Out: Json object of floats)
 // 3. get average values of floats from 5 songs
-export const avgValuesOfSongs = async(songArray) => {
+export const avgValuesOfSongs = async(idArray) => {
     const sp = await getValidSPObj();
-    let idArray = []
 
-    var songArrayKeys = Object.keys(songArray)
-    var count = songArrayKeys.length;
-
-    for (let i = 0; i <count; i++){
-        idArray[i] = songArray[i].track.id
-    }
+    //grab floats for each track using API call
     let data = await sp.getAudioFeaturesForTracks(idArray);
-   
 
+   
+    //here we denote which values we 'care about' for the alg
     let avgs = {
       "acousticness": 0.0,
       "danceability": 0.0,
@@ -74,23 +69,69 @@ export const avgValuesOfSongs = async(songArray) => {
       //"time_signature": 0,
       "valence": 0,
     }
+    var avgKeys = Object.keys(avgs)
 
 
     
   
-  
+    //for each song
     for (let songIndex = 0; songIndex < data.audio_features.length; songIndex++){
-        console.log("Item: " + data.audio_features[songIndex]) //grabs each songs floats
+
+        let myFloats = data.audio_features[songIndex];
+        var dataKeys = Object.keys(myFloats)
         
-        /*var dataKeys = Object.keys(data)
-        var count = dataKeys.length;
-        for (let valIndex = 0; valIndex <valCount; valIndex++){
-            console.log(data[dataIndex].valkeys[valIndex])
-        }*/
+        
+        
+        //for each float in song, add value to avgs array
+        for (let valIndex = 0; valIndex < dataKeys.length; valIndex++){
+            
+            //check if current val is in the avgs array
+            if (avgKeys.indexOf(dataKeys[valIndex]) > -1){
+                //sum up new value with current avgs
+                avgs[dataKeys[valIndex]] = avgs[dataKeys[valIndex]] + myFloats[dataKeys[valIndex]]
+
+            }
+        }
 
     }
     
+
+    //for each float in song, divide by number of songs
+    for (let valIndex = 0; valIndex < avgKeys.length; valIndex++){
+        avgs[avgKeys[valIndex]] = avgs[avgKeys[valIndex]]/data.audio_features.length
+    }
+
+    //return list of all avg values for the songs
+    return avgs
+    
 }
+
+//      FUNCTION 2.5 (In: none - Out: list of avg floats)
+export const getUserFloats = async () => {
+    
+    //get user's top 100 songs
+    const userTracks = await getUserTopTracks();
+    userTracksKeys = Object.keys(userTracks);
+
+
+    //create list of song id's
+    let idList = [];
+    for (let i = 0; i < userTracksKeys.length; i++){
+        
+        idList.push(userTracks[userTracksKeys[i]].id)
+    }
+    console.log(idList);
+    
+    
+    //call avgValuesOfSongs() to get float avg's based on song list
+    let userAvgs = await avgValuesOfSongs(idList);
+
+    //return list of floats
+    console.log(userAvgs)
+    return userAvgs
+}
+
+
 
 //      FUNCTION 3 (In: firebase group id - Out: Json object of floats)
 // 4. get average values of floats from each user
