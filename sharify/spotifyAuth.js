@@ -219,6 +219,7 @@ export const getRecs = async (floats, songIDList) => {
       "valence": 0, */
   //see spotify web API reference for all possible values
   const {tracks: recs} = await sp.getRecommendations({seed_tracks:  songIDList,
+                                                      min_popularity: 60,
                                                       acousticness: floats["acousticness"],
                                                       danceability: floats["danceability"],
                                                       energy: floats["energy"],
