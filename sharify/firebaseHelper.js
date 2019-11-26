@@ -20,7 +20,7 @@ export const getCurrentUser = () => {
     //returns bool, true if user was created, false if user already exists
 export const createNewUserInDatabase = (user) => {
         require('firebase/firestore');
-        console.log("User ID: " + user.uid);
+        console.log("User ID: " + user.uid); //TODO: Delete this after testing is done
         const ref = firebase.firestore().collection(globalCollectionName);
         
         //check to see if user already exists
@@ -32,11 +32,11 @@ export const createNewUserInDatabase = (user) => {
             if(data == undefined){
                 //create new doc for the user, and add default values
                 ref.doc(user.uid).set({
-                    test:'value'
+                    test:'value' //temp test value
                 });
-                return true;
+                return true; //return true because user doesn't exist
             }else{
-                return false;
+                return false; //return false because user already exists
             }
         });
 
@@ -49,7 +49,8 @@ export const getValueFromUserInDatabase = async(user) => {
     require('firebase/firestore');
         const ref = await firebase.firestore().collection(globalCollectionName);
         
-       return await ref.doc(user.uid).get().then((doc) => {
+        //grabs all data from user doc and returns as json
+        return await ref.doc(user.uid).get().then((doc) => {
             return doc.data()
         })
 
@@ -61,11 +62,14 @@ export const getValueFromUserInDatabase = async(user) => {
     //returns nothing
 export const setValueFromUserInDatabase = async(user,key,value) => {
     require('firebase/firestore');
-        const ref = firebase.firestore().collection(globalCollectionName);
+    const ref = firebase.firestore().collection(globalCollectionName);
         
-        await ref.doc(user.uid).set({
+    //adds new field WITHOUT overwriting all data
+    await ref.doc(user.uid).set({
             [key]: value
-          }, {merge: true});
+        }, {merge: true});
+
+    //ref.doc(user.uid).update({[key]: value}); <-- this might be a way to do the same thing?
 
 }
 
