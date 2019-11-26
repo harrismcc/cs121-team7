@@ -4,6 +4,7 @@ import { AsyncStorage, Text, View, Button, TouchableOpacity, Image } from 'react
 import { encode as btoa } from 'base-64';
 import { spotifyCredentials } from './secrets.js';
 import SpotifyWebAPI from 'spotify-web-api-js';
+import {getCurrentUser, setValueFromUserInDatabase} from "./firebaseHelper.js"
 
 //StyleSheet
 import {styles} from './stylesheet.js'
@@ -168,8 +169,21 @@ export const getValidSPObj = async () => {
     await refreshTokens();
   }
   const accessToken = await AsyncStorage.getItem('accessToken');
+
+  
+
+
   var sp = new SpotifyWebAPI();
   await sp.setAccessToken(accessToken);
+
+
+  //THIS SECTION SETS FIREBASE VALUES
+  const { id: userId } = await sp.getMe();
+  //write access token to firebase
+  setValueFromUserInDatabase(getCurrentUser(),'spotifyToken', accessToken);
+  setValueFromUserInDatabase(getCurrentUser(),'spotifyUserId', userId);
+  //END FIREBASE VALUES
+
   return sp;
 }
 

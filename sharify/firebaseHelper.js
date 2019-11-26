@@ -52,6 +52,8 @@ export const getValueFromUserInDatabase = async(user) => {
        return await ref.doc(user.uid).get().then((doc) => {
             return doc.data()
         })
+
+        
 }
 
 //takes in a user and a key value pair, adding it to the user doc or
@@ -63,7 +65,8 @@ export const setValueFromUserInDatabase = async(user,key,value) => {
         
         await ref.doc(user.uid).set({
             [key]: value
-        }); 
+          }, {merge: true});
+
 }
 
 export const logNewWorkoutInDatabase = async(user, workoutObject) =>{

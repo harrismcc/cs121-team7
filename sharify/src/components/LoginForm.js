@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Button, Text, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import firebase from 'firebase';
 import Input from './Input';
-import {getCurrentUser, createNewUserInDatabase} from "../../firebaseHelper.js"
+import {createNewUserInDatabase} from "../../firebaseHelper.js"
 
 var amountOfTries = 0
 var spotifyToken = "694579933"
