@@ -3,6 +3,7 @@ import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { testRec, getRecs } from "../spotifyAuth.js";
 import {getUserFloats} from "../iterRec.js";
+import {getCurrentUser, createNewUserInDatabase} from "../firebaseHelper.js"
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -139,10 +140,10 @@ export class RecsPage extends React.Component {
         "0djZ2ndRfAL69WYNra5jRC"])
       this.setState({topTrackArray : topRecs});
 
-      //await testRec();
+      //test functions
 
-      //test = await getLastFive("0zweTLBRy9bqPA6GUPTV1e")
-    
+      //create new user from authenticated user
+      createNewUserInDatabase(getCurrentUser());
       
     }
   

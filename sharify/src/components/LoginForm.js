@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Button, Text, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import firebase from 'firebase';
 import Input from './Input';
-//import {styles} from "../../stylesheet.js"
+import {getCurrentUser, createNewUserInDatabase} from "../../firebaseHelper.js"
 
 var amountOfTries = 0
 var spotifyToken = "694579933"
@@ -46,20 +46,6 @@ export default class LoginForm extends Component {
           });
   }
 
-  // adds users to database along with their Spotify token
-  writeUserData(email,spotifyToken){
-    firebase.database().ref(databaseURL).push({
-        email,
-        spotifyToken
-    }).then((data)=>{
-        //success callback
-        console.log('data ' , data)
-    }).catch((error)=>{
-        //error callback
-        console.log('error ' , error)
-    })
-}
-
 // makes account
   createAccount() {
     this.setState({ error: '', loadingB: true })
@@ -67,7 +53,9 @@ export default class LoginForm extends Component {
     // Submit login information to the Firebase database to create new user
     // Check to make sure that they don't already have an account
         firebase.auth().createUserWithEmailAndPassword(email, password)
-          .then(this.onLoginSuccess.bind(this))
+          .then(()=>{
+            this.onLoginSuccess.bind(this);
+          })
           // If there is an error print error message
           .catch((error) => {
             let errorCode = error.code
@@ -86,7 +74,11 @@ export default class LoginForm extends Component {
           }
           });
 
-          this.writeUserData.bind(email,spotifyToken)
+         
+
+          
+
+          
       
   }
 
@@ -126,9 +118,14 @@ export default class LoginForm extends Component {
           
   // Update variable to move us to the home screen
   onLoginSuccess() {
+
+    //creates new entry for user if user doesn't exist yet
+    createNewUserInDatabase(firebase.auth().currentUser);
+
     this.setState({
       email: '', password: '', error: '', loadingA: false, loadingB: false
     })
+    
   }
 
   // Stop loading screen and print error

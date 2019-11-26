@@ -7,7 +7,7 @@ export const spotifyCredentials = {
     redirectUri: 'https://auth.expo.io/@121team7/Authenticator'
     }
 
-export const firebaseConfig = {
+/*export const firebaseConfig = {
         apiKey: "AIzaSyDvk0jhmBxYZ-zKlnH-AjlwRD_ncC5J8fI",
         authDomain: "sharify-1320a.firebaseapp.com",
         databaseURL: "https://sharify-1320a.firebaseio.com",
@@ -16,4 +16,14 @@ export const firebaseConfig = {
         messagingSenderId: "846116937918",
         appId: "1:846116937918:web:0076be3f93e8af5703feef",
         measurementId: "G-M00PCR1CB5"
+      };*/
+
+export const firebaseConfig = {
+        apiKey: "AIzaSyBw01Y26f794tngAObSRcEfDHAYWDZuGrg",
+        authDomain: "tutorial-ea807.firebaseapp.com",
+        databaseURL: "https://tutorial-ea807.firebaseio.com",
+        projectId: "tutorial-ea807",
+        storageBucket: "tutorial-ea807.appspot.com",
+        messagingSenderId: "705714028309",
+        appId: "1:705714028309:web:b7d94ef9dc1163311a731c"
       };

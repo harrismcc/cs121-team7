@@ -189,6 +189,7 @@ export const getUserTopTracks = async () => {
 }
 
 //a test function that takes in values and returns reccomendations
+//TODO: deprecate - delete this
 export const testRec = async (danceabilityVal, energyVal, popularityVal, valenceVal) => {
   const sp = await getValidSPObj();
 
@@ -204,19 +205,9 @@ export const testRec = async (danceabilityVal, energyVal, popularityVal, valence
 export const getRecs = async (floats, songIDList) => {
 
   const sp = await getValidSPObj();
-  /*"acousticness": 0.0,
-      "danceability": 0.0,
-      //"duration_ms": 0,
-      "energy": 0.0,
-      "instrumentalness": 0,
-      "key": 0, //?
-      "liveness": 0,
-      "loudness": 0, //?
-      "mode": 0,
-      "speechiness": 0,
-      "tempo": 0,
-      //"time_signature": 0,
-      "valence": 0, */
+
+  //TODO: ensure no more than 5 song id's
+
   //see spotify web API reference for all possible values
   const {tracks: recs} = await sp.getRecommendations({seed_tracks:  songIDList,
                                                       min_popularity: 60,
@@ -231,7 +222,7 @@ export const getRecs = async (floats, songIDList) => {
                                                       speechiness: floats["speechiness"],
                                                       tempo: floats["tempo"],
                                                       valence: floats["valence"]});
-  return recs;valenceVa
+  return recs;
 }
 
 // creates a playlist in a user's account
