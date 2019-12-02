@@ -73,27 +73,6 @@ export const setValueFromUserInDatabase = async(user,key,value) => {
 
 }
 
-export const logNewWorkoutInDatabase = async(user, workoutObject) =>{
-    require('firebase/firestore');
-    const ref = firebase.firestore().collection(globalCollectionName);
-    
-    //Increments coints (earn coins)
-    const {coins} = await getValueFromUserInDatabase(user);
-    newVal = parseInt(coins) + workoutObject.worth;
-    console.log(newVal);
-    await setValueFromUserInDatabase(user, 'coins', newVal.toString());
-
-    //setValueFromUserInDatabase(user, 'coins', )
-    await ref.doc(user.uid).collection('workouts').doc().set(workoutObject); 
-    
-}
-
-export const getWorkoutsFromDatabase = async(user) => {
-    require('firebase/firestore');
-    const ref = await firebase.firestore().collection(globalCollectionName).doc(user.uid).collection('workouts').get();
-    
-    return ref.docs.map(doc => doc.data());
-}
 
 
 /////////// BEGIN PLAYLIST SECTION //////////////////
@@ -130,7 +109,10 @@ export const createAsHost = async() => {
     if (hostingArray == undefined){ //add new id to existing list of hosted id's
         hostingArray = [newId];
     }else{
-        hostingArray.push(newId);
+        if (hostingArray.indexOf(newId) != -1){//prevents duplicates
+            hostingArray.push(newId);
+        }
+        
     }   
     
     firebase.firestore().collection(globalCollectionName).doc(userId).set(
@@ -139,4 +121,60 @@ export const createAsHost = async() => {
 
     //STEP 4: create new playlist in spotify
     //TODO: complete step 4 with existing functions
+}
+
+//joins the current user as a guest to playlist 'playlistId'
+export const joinAsGuest = async(playlistId) => {
+    const ref = firebase.firestore().collection(playlistCollectionName);
+    playlistDoc = ref.doc(playlistId);
+    const userId = getCurrentUser().uid;
+
+    //adds user as guest in playlist object, returs bool
+    playlistDidExist = await playlistDoc.get().then(function(doc){
+        if (doc.exists){
+            
+            guestsArray = doc.data["guests"]
+            if (guestsArray == undefined){ //add new id to existing list of hosted id's
+                guestsArray = [userId];
+            }else{
+                if (guestsArray.indexOf(userId) != -1){ //prevents duplicates
+                    guestsArray.push(userId);
+                }
+                
+            }
+            playlistDoc.set({guests : guestsArray}, {merge: true});//write new list to firebase
+            return true;
+        }else{
+            console.log("Doc doesn't exist")
+            return false;
+        }
+    }).catch(function(err) { //error handler
+        console.log("Error when writing to playlists collection: " + err);
+    });
+
+    //add to user's guest list
+    if (playlistDidExist){ 
+        const ref = firebase.firestore().collection(globalCollectionName).doc(getCurrentUser().uid);
+        await ref.get().then(function(doc){
+            guestList = doc.data['guest']
+            
+            if (guestList == undefined){
+                guestList = [playlistId];
+            }else{
+                if (guestList.indexOf(playlistId) != -1){ //prevents duplicates
+                    guestList.push(playlistId);
+                }
+                
+            }
+            ref.set({guest: guestList}, {merge: true}); //write new list to firebase
+        }).catch(function(err) { //error handler
+            console.error("Error when writing to userCollection: " + err)
+        });
+        
+        
+    }
+
+    
+
+    
 }
