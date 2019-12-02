@@ -7,28 +7,34 @@ In order to understand these functions, it's important to understand the structu
 ![Example User](https://i.imgur.com/WiRW72K.png)
 Here is an example of a typical user in the database. There are a few different fields to note.
 
-**guest**: an array of all playlist id's in which the user is joined as a guest
-**hosting**: and array of all playlist id's in which the user is the host
-**spotifyToken**: the users spotify API token
-**spotifyUserId**: the users spotify user ID
+Name | Type | Description
+--- | --- | ---
+**guest** | `array` | an array of all playlist id's in which the user is joined as a guest  
+**hosting** | `array` | and array of all playlist id's in which the user is the host  
+**spotifyToken** | `string` | the users spotify API token  
+**spotifyUserId** | `string` |the users spotify user ID  
 
 ### Example Playlist
 ![Example Playlist](https://i.imgur.com/71Q3FQi.png)
-This is an example of a typical playlist in the database. 
+This is an example of a typical playlist in the database.   
 
-**guests:** an array of all users who are guests on this playlist
-**host:** a SINGLE ITEM array containing the id of the host
-**name:** the playlist name
-**playlistDateCreated:** the date & time the playlist was created
-**playlistSpotifyID:** the id of the playlist in spotify
+Name | Type | Description
+--- | --- | ---
+**guests** | `array` | an array of all users who are guests on this playlist  
+**host** | `array` | a SINGLE ITEM array containing the id of the host  
+**name** | `string` | the playlist name  
+**playlistDateCreated** | `datetime` | the date & time the playlist was created  
+**playlistSpotifyID** | `string` | the id of the playlist in spotify  
 
 ## Function Reference
 
-### createNewUserInDatabase
+### createNewUserInDatabase(name)
 
-**Overview:** This function adds user to userCollection for the first time. Won't add if user already exists.
-**Inputs:**
+**Overview:** This function adds user to userCollection for the first time. Won't add if user already exists.  
+**Inputs:**  
+
 Name | Type | Description
 --- | --- | ---
-user | `Firebase-auth user object` | The user to be added
-**Outputs:**  `Boolean` Success, will return false if user already exists
+user | `Firebase-auth user object` | The user to be added  
+
+**Outputs:**  `Boolean` Success, will return false if user already exists  
