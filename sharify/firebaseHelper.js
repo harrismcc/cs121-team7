@@ -80,6 +80,7 @@ const playlistCollectionName = 'playlists';
 
 //this function creates a new playlist with the current user as host
 export const createAsHost = async() => {
+    require('firebase/firestore');
     //STEP 1: create new playlist object in collection 
     const ref = firebase.firestore().collection(playlistCollectionName);
     newId = "";
@@ -125,6 +126,7 @@ export const createAsHost = async() => {
 
 //joins the current user as a guest to playlist 'playlistId'
 export const joinAsGuest = async(playlistId) => {
+    require('firebase/firestore');
     const ref = firebase.firestore().collection(playlistCollectionName);
     playlistDoc = ref.doc(playlistId);
     const userId = getCurrentUser().uid;
@@ -173,8 +175,6 @@ export const joinAsGuest = async(playlistId) => {
         
         
     }
-
-    
 
     
 }

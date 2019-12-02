@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Button, ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { getUserTopPlaylists, getUserTopTracks, testRec} from "../spotifyAuth.js";
+import * as Permissions from 'expo-permissions';
 
 // This page also has the buttons to navigate to other pages
 
@@ -47,6 +48,11 @@ export class ShowPlaylists extends React.Component {
           <View style={[{margin: 5}]}>
             <Button title="Join Playlist" onPress={() => navigate('JoinPage')}/>
           </View>
+          <View style={[{margin: 5}]}>
+            <Button title="QR Code" onPress={() => navigate('QrCodePage')}/>
+          </View>
+
+          
 
           <View style={{height: 400}}>
             <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
@@ -73,7 +79,17 @@ export class ShowPlaylists extends React.Component {
       
      
     }
-  
-  
+
+    qrnavigation = async() => {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      
+      if (status == 'granted'){
+        return true
+      }else{
+        console.log("NO CAMERA ACCESS")
+        return false
+      }
+    }
+      
     
   }

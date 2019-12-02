@@ -8,6 +8,7 @@ import { AuthorizeWithSpotify } from "./spotifyAuth.js";
 import { ShowPlaylists } from './pages/showPlaylistsPage.js'
 import { LoginFormPage } from "./pages/loginPage.js"
 import { RecsPage } from "./pages/recsTestPage.js"
+import { QrCodeReader } from "./pages/qrCodeReader.js"
 
 //exporting one thing by default so don't use {}
 import PlaySong from "./pages/playSong.js"
@@ -25,7 +26,8 @@ const MainNavigator = createStackNavigator({
   MusicPage: {screen: PlaySong},
   RecsPage : {screen: RecsPage},
   JoinPage : {screen: JoinPage},
-  HostPage : {screen: HostPage}
+  HostPage : {screen: HostPage},
+  QrCodePage : {screen: QrCodeReader}
 });
 
 //create app from navigator
