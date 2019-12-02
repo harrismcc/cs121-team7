@@ -61,14 +61,20 @@ export class QrCodeReader extends React.Component {
 
     getPermissionsAsync = async () => {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
-        console.log("Status: " + status)
         this.setState({ hasCameraPermission: status });
     };
 
     onSuccess = ({ type, data }) => {
-        joinAsGuest(data);
-        alert(`${data} has been scanned and joined!`);
-        this.setState({scanned : true})
+        pure = data.replace("sharify://", "");
+
+        if (data != pure){
+            joinAsGuest(pure);
+            alert(`${data} has been scanned and joined!`);
+            this.setState({scanned : true})
+        }else{
+            alert(`${data} is not a valid sharify code, try again`)
+            this.setState({scanned : true})
+        }
     }
 
 }
