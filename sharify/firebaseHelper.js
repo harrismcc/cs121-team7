@@ -94,3 +94,49 @@ export const getWorkoutsFromDatabase = async(user) => {
     
     return ref.docs.map(doc => doc.data());
 }
+
+
+/////////// BEGIN PLAYLIST SECTION //////////////////
+const playlistCollectionName = 'playlists';
+
+//this function creates a new playlist with the current user as host
+export const createAsHost = async() => {
+    //STEP 1: create new playlist object in collection 
+    const ref = firebase.firestore().collection(playlistCollectionName);
+    newId = "";
+
+    test = await ref.add({
+        playlistSpotifyID: "null",
+        playlistDateCreated: new Date(),
+    }).then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        newId = docRef.id
+    })
+    .catch(function(error) {
+        console.error("Error adding document: ", error);
+    });
+
+    //STEP 2: add user to that new objects 'host' collection
+    userId = getCurrentUser().uid;
+    ref.doc(newId).set({host : [userId]}, {merge: true})
+
+    //STEP 3: add playlist id to users hosting collection
+    hostingArray = await firebase.firestore().collection(globalCollectionName).doc(userId).get().then(
+        function(doc){
+            return doc.data()['hosting'];
+        }
+    ).catch(function(error) {console.error("Error getting document: " + error)});
+
+    if (hostingArray == undefined){ //add new id to existing list of hosted id's
+        hostingArray = [newId];
+    }else{
+        hostingArray.push(newId);
+    }   
+    
+    firebase.firestore().collection(globalCollectionName).doc(userId).set(
+        {hosting : hostingArray}, {merge: true}
+    )
+
+    //STEP 4: create new playlist in spotify
+    //TODO: complete step 4 with existing functions
+}

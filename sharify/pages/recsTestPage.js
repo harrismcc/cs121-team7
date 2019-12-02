@@ -3,7 +3,7 @@ import { Text, View, Button, ScrollView, Slider } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { testRec, getRecs } from "../spotifyAuth.js";
 import {getUserFloats} from "../iterRec.js";
-import {getCurrentUser, createNewUserInDatabase} from "../firebaseHelper.js"
+import {getCurrentUser,  createAsHost} from "../firebaseHelper.js"
 
 //StyleSheet
 import {styles} from '../stylesheet.js'
@@ -143,7 +143,7 @@ export class RecsPage extends React.Component {
       //test functions
 
       //create new user from authenticated user
-      createNewUserInDatabase(getCurrentUser());
+      createAsHost();
       
     }
   
