@@ -38,3 +38,25 @@ Name | Type | Description
 user | `Firebase-auth user object` | The user to be added  
 
 **Outputs:**  `Boolean` Success, will return false if user already exists  
+
+### getValueFromUserInDatabase(user)
+
+**Overview**: gets all fields from user doc as json
+**Inputs:**
+
+Name | Type | Description
+--- | --- | ---
+user | `Firebase-auth user object` | The user to pull data from
+
+
+### setValueFromUserInDatabase(user,key,value)
+
+**Overview:** Takes in a user, key, and value, and writes that key value pair to the users database entry
+**Inputs:**
+
+Name | Type | Description
+--- | --- | --- 
+user | `Firebase-auth user object` | The user to pull data from
+key | `string` | key name
+value | `any` | value
+
