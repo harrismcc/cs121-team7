@@ -110,7 +110,7 @@ export const createAsHost = async() => {
     if (hostingArray == undefined){ //add new id to existing list of hosted id's
         hostingArray = [newId];
     }else{
-        if (hostingArray.indexOf(newId) != -1){//prevents duplicates
+        if (hostingArray.indexOf(newId) == -1){//prevents duplicates
             hostingArray.push(newId);
         }
         
@@ -135,11 +135,11 @@ export const joinAsGuest = async(playlistId) => {
     playlistDidExist = await playlistDoc.get().then(function(doc){
         if (doc.exists){
             
-            guestsArray = doc.data["guests"]
+            guestsArray = doc.data()["guests"]
             if (guestsArray == undefined){ //add new id to existing list of hosted id's
                 guestsArray = [userId];
             }else{
-                if (guestsArray.indexOf(userId) != -1){ //prevents duplicates
+                if (guestsArray.indexOf(userId) == -1){ //prevents duplicates
                     guestsArray.push(userId);
                 }
                 
@@ -158,16 +158,20 @@ export const joinAsGuest = async(playlistId) => {
     if (playlistDidExist){ 
         const ref = firebase.firestore().collection(globalCollectionName).doc(getCurrentUser().uid);
         await ref.get().then(function(doc){
-            guestList = doc.data['guest']
+            guestList = doc.data()["guest"]
+            console.log(doc.data()[["guest"]])
             
             if (guestList == undefined){
                 guestList = [playlistId];
             }else{
-                if (guestList.indexOf(playlistId) != -1){ //prevents duplicates
+                console.log("Something Exists")
+                if (guestList.indexOf(playlistId) == -1){ //prevents duplicates
+                    console.log("Pushed")
                     guestList.push(playlistId);
                 }
                 
             }
+            console.log("About to write to fb")
             ref.set({guest: guestList}, {merge: true}); //write new list to firebase
         }).catch(function(err) { //error handler
             console.error("Error when writing to userCollection: " + err)

@@ -3,6 +3,7 @@ import { Text, View, Button, ScrollView } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { getUserTopPlaylists, getUserTopTracks, testRec} from "../spotifyAuth.js";
 import * as Permissions from 'expo-permissions';
+import {startTimerInstance} from '../src/timerFunctions.js'
 
 // This page also has the buttons to navigate to other pages
 
@@ -15,6 +16,15 @@ export class ShowPlaylists extends React.Component {
       title: 'Show Playlists',
       backgroundColor: "#339900",
     };
+
+    ///// TIMER SECTION ////
+    //this will run some tasks every x minutes no matter which page the user is on
+    //and will eventually be used to update things like geolocation and song queue
+    componentDidMount(){
+      //runs every 5 minutes
+      startTimerInstance(5);
+    }
+
   
    constructor(props) {
     super(props);
