@@ -1,5 +1,6 @@
 import {firebaseConfig} from "./secrets.js"
 import firebase from 'firebase'
+import {createNewPlaylist} from "./spotifyAuth.js"
 //THIS IS FROM ANOTHER APP BUT MIGHT BE USEFUL
 
 //check if firebase app is already initialized
@@ -79,14 +80,20 @@ export const setValueFromUserInDatabase = async(user,key,value) => {
 const playlistCollectionName = 'playlists';
 
 //this function creates a new playlist with the current user as host
-export const createAsHost = async() => {
+export const createAsHost = async(playlistName, playlistDescription) => {
     require('firebase/firestore');
+
+    //STEP 0: create playlits in spotify
+    playlistId = await createNewPlaylist(playlistName, playlistDescription, true)
+
     //STEP 1: create new playlist object in collection 
     const ref = firebase.firestore().collection(playlistCollectionName);
     newId = "";
 
     test = await ref.add({
-        playlistSpotifyID: "null",
+        playlistSpotifyID: playlistId,
+        playlistSpotifyName : playlistName,
+        playlistDescription : playlistDescription,
         playlistDateCreated: new Date(),
     }).then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -179,6 +186,14 @@ export const joinAsGuest = async(playlistId) => {
         
         
     }
-
-    
+   
 }
+
+export const updateLocationInFirebase = (lat, long) => {
+    require('firebase/firestore');
+    const geoPoint = new firebase.firestore.GeoPoint(lat, long);
+    console.log("Logging User Location ")
+    setValueFromUserInDatabase(getCurrentUser(), "location", geoPoint);
+
+}
+

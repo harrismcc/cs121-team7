@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
+import {updateLocationInFirebase} from '../firebaseHelper'
 
 export const startTimerInstance = (minutes) => {
     _runTimerTasks() //run once to start, then run every x minutes
@@ -14,6 +15,8 @@ const _runTimerTasks = () => {
      //add songs from que's of hosted playlists
 }
 
+
+//function to get user location, also stores it in firebase
 const _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -25,6 +28,8 @@ const _getLocationAsync = async () => {
         latitude = location['coords']['latitude']
         longitude = location['coords']['longitude']
     };
+    //point = new firebase.firestore.GeoPoint(latitude, longitude)
+    updateLocationInFirebase(latitude, longitude)
     return { latitude, longitude}
 
     }

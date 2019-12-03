@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Button, Text, ScrollView, AsyncStorage } from 'react-native';
+import { View, Button, Text, ScrollView, AsyncStorag, TextInput } from 'react-native';
 import firebase from 'firebase';
 import { styles } from '../stylesheet.js'
+import SpotifyWebAPI from 'spotify-web-api-js';
 import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
-
+import{createAsHost} from "../firebaseHelper.js"
 export default class hostPage extends Component {
     static navigationOptions = {
         title: 'Host Page',
@@ -48,6 +49,11 @@ export default class hostPage extends Component {
             <View style = {{ flex: 1, justifyContent: "center",
             alignItems: "center"}}>
             <Text>{this.state.tempVar}</Text>
+            <TextInput
+                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                onChangeText={text => {this.setState({name : text})}}
+                value={this.state.name}
+            />
             <Button title="Grab User Data for Items Below (optional)" onPress={this._getUserData} />
             <View style={[{margin: 5}]}>
             <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
@@ -108,12 +114,12 @@ export default class hostPage extends Component {
 
     _generatePlaylist = async () => {
 
-        const sp = await getValidSPObj();
-        const { id: userId } = await sp.getMe(); 
+        //createNewPlaylist(this.state.name, this.state.description, this.state.isPublic)
+        createAsHost(this.state.name, this.state.description, this.state.isPublic)
 
+        //sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
         
-        sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
-        
+
             this.setState({
                 "tempVar": "You just created a collaborative playlist."
             }, () => {
