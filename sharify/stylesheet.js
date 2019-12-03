@@ -47,5 +47,15 @@ export const styles = StyleSheet.create({
         marginBottom: 2,
         borderWidth: 2, 
         borderRadius: 5
+    },
+    mainButton: {
+            height: 250, 
+            width: 250,
+            marginBottom: 10, 
+            backgroundColor: '#474747', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            borderRadius: 15,
+            flexDirection:"row",
     }
   });

@@ -51,7 +51,9 @@ export class ShowPlaylists extends React.Component {
           <View style={[{margin: 5}]}>
             <Button title="QR Code" onPress={() => navigate('QrCodePage')}/>
           </View>
-
+          <View style={[{margin: 0}]}>
+            <Button  title="Go To Main Page" onPress={() => navigate('MainPage')}/>
+          </View>
           
 
           <View style={{height: 400}}>

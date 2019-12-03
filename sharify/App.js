@@ -9,6 +9,7 @@ import { ShowPlaylists } from './pages/showPlaylistsPage.js'
 import { LoginFormPage } from "./pages/loginPage.js"
 import { RecsPage } from "./pages/recsTestPage.js"
 import { QrCodeReader } from "./pages/qrCodeReader.js"
+import { MainScreen } from "./MainPage.js"
 
 //exporting one thing by default so don't use {}
 import PlaySong from "./pages/playSong.js"
@@ -27,7 +28,8 @@ const MainNavigator = createStackNavigator({
   RecsPage : {screen: RecsPage},
   JoinPage : {screen: JoinPage},
   HostPage : {screen: HostPage},
-  QrCodePage : {screen: QrCodeReader}
+  QrCodePage : {screen: QrCodeReader},
+  MainPage: {screen: MainScreen}
 });
 
 //create app from navigator
