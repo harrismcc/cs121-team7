@@ -1,6 +1,6 @@
 import {firebaseConfig} from "./secrets.js"
 import firebase from 'firebase'
-import {createNewPlaylist} from "./spotifyAuth.js"
+import {createNewPlaylist, getValidSPObj} from "./spotifyAuth.js"
 //THIS IS FROM ANOTHER APP BUT MIGHT BE USEFUL
 
 //check if firebase app is already initialized
@@ -48,6 +48,9 @@ export const createNewUserInDatabase = (user) => {
     //returns json object
 export const getValueFromUserInDatabase = async(user) => {
     require('firebase/firestore');
+        if(user == null){
+            user = getCurrentUser();
+        }
         const ref = await firebase.firestore().collection(globalCollectionName);
         
         //grabs all data from user doc and returns as json
@@ -76,9 +79,57 @@ export const setValueFromUserInDatabase = async(user,key,value) => {
 
 
 
+
+
 /////////// BEGIN PLAYLIST SECTION //////////////////
 const playlistCollectionName = 'playlists';
 
+
+export const getPlaylistFromId = async(id) => {
+    require('firebase/firestore');
+    data = {}
+    const ref = firebase.firestore().collection(playlistCollectionName).doc(id);
+    await ref.get().then((doc) => {
+        data = doc.data()
+    }).catch((err) => {
+        console.error("Error fetching playlist data: " + err)
+    })
+
+    return data;
+
+}
+
+export const getPlaylistImageURL = async(id) => {
+    
+    playlistObject = await getPlaylistFromId(id)
+    spotifyID = playlistObject.playlistSpotifyID
+    console.log("Spotify ID: " + spotifyID)
+  
+
+    const sp = await getValidSPObj();
+
+    images = null;
+    image = null;
+    //TODO: This is causing the cross-contamination error SOMEHOW. fix.
+    await sp.getPlaylist(spotifyID).then(images => {
+        images = images["images"]
+
+        if (images == []){
+            image = "https://images.rapgenius.com/0bfa0730f0f4251355f6311af8961917.1000x1000x1.jpg"
+        }else{
+            image = images[0]["url"]
+        }
+
+    });
+    
+    
+    await console.log("Image Url: " + image + " Spotify ID: " + spotifyID)
+    
+    
+    return image
+
+
+}
 //this function creates a new playlist with the current user as host
 export const createAsHost = async(playlistName, playlistDescription) => {
     require('firebase/firestore');
@@ -138,6 +189,8 @@ export const joinAsGuest = async(playlistId) => {
     playlistDoc = ref.doc(playlistId);
     const userId = getCurrentUser().uid;
 
+    
+
     //adds user as guest in playlist object, returs bool
     playlistDidExist = await playlistDoc.get().then(function(doc){
         if (doc.exists){
@@ -186,6 +239,9 @@ export const joinAsGuest = async(playlistId) => {
         
         
     }
+
+    //return the playlist object
+    return playlistDoc
    
 }
 

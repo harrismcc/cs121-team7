@@ -5,6 +5,9 @@ import { styles } from '../stylesheet.js'
 import SpotifyWebAPI from 'spotify-web-api-js';
 import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
 import{createAsHost} from "../firebaseHelper.js"
+
+import ShowHostedPlaylists from "../src/components/ShowHostedPlaylists.js"
+
 export default class hostPage extends Component {
     static navigationOptions = {
         title: 'Host Page',
@@ -66,7 +69,13 @@ export default class hostPage extends Component {
             </View>
             <View style={[{margin: 5}]}>
             <Button title="Contribute Your Favorites to Playlist" onPress={this._addTopTracksToPlaylists}/>
+            
             </View>
+            <ShowHostedPlaylists
+                width={'100%'}
+                height={'100%'}
+
+            />
             </View>
         );
     }

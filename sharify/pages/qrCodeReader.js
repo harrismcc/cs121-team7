@@ -68,7 +68,7 @@ export class QrCodeReader extends React.Component {
         pure = data.replace("sharify://", "");
 
         if (data != pure){
-            joinAsGuest(pure);
+            joinAsGuest(pure).then((playlist) => {console.log(JSON.stringify(playlist));});
             alert(`${data} has been scanned and joined!`);
             this.setState({scanned : true})
         }else{

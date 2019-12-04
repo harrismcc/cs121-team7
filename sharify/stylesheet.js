@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
       backgroundColor: '#999999',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 40, 
     },
     labeledSlider: {
         flex: 1,
