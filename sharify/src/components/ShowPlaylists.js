@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ScrollView, StyleSheet, Platform } from 'react-native';
+import { View, Image, Text, ScrollView, StyleSheet, TouchableHighlight, Alert } from 'react-native';
 import {getPlaylistFromId, getPlaylistImageURL, getValueFromUserInDatabase} from "../../firebaseHelper.js"
 
 
-export default class ShowHostedPlaylists extends Component {
+export default class ShowPlaylists extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            title : "My Hosted Playlists",
             test : "abc",
             hostingList : []
         }
@@ -14,14 +15,24 @@ export default class ShowHostedPlaylists extends Component {
     }
 
     componentDidMount() {
-        this._getUsersHostedPlaylists()
+
+        if (this.props.hosted){
+            this._getUsersHostedPlaylists()
+            this.setState({title : "My Hosted Playlists"})
+        }
+
+        else{
+            this._getUsersGuestPlaylists()
+            this.setState({title : "My Joined Playlists"})
+        }
+        
     }
     
 
     render(){
         return(
-            <View style={stylesShowHostedPlaylist.container}>
-                <Text style={stylesShowHostedPlaylist.titleText}>My Hosted Playlists</Text>
+            <View style={stylesShowPlaylist.container}>
+                <Text style={stylesShowPlaylist.titleText}>{this.state.title}</Text>
                 <ScrollView>
                     {this._mapAllHostedLists()}
                 </ScrollView>
@@ -33,6 +44,12 @@ export default class ShowHostedPlaylists extends Component {
     _getUsersHostedPlaylists = async() => {
         hostList = await getValueFromUserInDatabase()
         this.setState({hostingList : hostList["hosting"]})
+
+    }
+
+    _getUsersGuestPlaylists = async() => {
+        hostList = await getValueFromUserInDatabase()
+        this.setState({hostingList : hostList["guest"]})
 
     }
 
@@ -49,15 +66,14 @@ export default class ShowHostedPlaylists extends Component {
         })
     }
 }
-ShowHostedPlaylists.defaultProps  = {
-    width: '100%',
-    height: '100%'
+ShowPlaylists.defaultProps  = {
+    hosted : true
 }
 
 
-class SinglePlaylist extends Component {
+export class SinglePlaylist extends Component {
     constructor(props) {
-        //console.disableYellowBox = true //TODO: DELETE THIS OMG
+        console.disableYellowBox = true //TODO: DELETE THIS OMG
         super(props);
         this.state = {
             playlistObject : {
@@ -68,7 +84,6 @@ class SinglePlaylist extends Component {
             playlistIsLoaded: false,
             imageIsLoaded : false,
         }
-        test = {}
         
         
     }
@@ -85,16 +100,34 @@ class SinglePlaylist extends Component {
     render(){
         if(this.state.playlistIsLoaded && this.state.imageIsLoaded){ //this prevents all the parts from appearing one by one on the screen
             return(
+                <View>
+                <TouchableHighlight onPress={this._onPressButton} onLongPress={this._onLongPressButton} underlayColor="white">
                 <View style={stylesSinglePlaylist.container}>
-                    <View style={stylesSinglePlaylist.coverImage}>
-                        {this.test}
+                    
+                    
+                        <View style={stylesSinglePlaylist.coverImage}>
+                            {this._renderCoverImage()}
+                            
+                        </View>
+                        <View>
+                            <Text 
+                                numberOfLines={1}
+                                ellipsizeMode='tail'
+                                style={stylesSinglePlaylist.titleText}
+                            >
+                                {this.state.playlistObject.playlistSpotifyName}
+                            </Text>
+
+                            <Text numberOfLines={2} style={stylesSinglePlaylist.descText}>{this.state.playlistObject.playlistDescription}</Text>
+                        </View>
+                    
                         
-                    </View>
-                    <View>
-                        <Text style={stylesSinglePlaylist.titleText}>{this.state.playlistObject.playlistSpotifyName}</Text>
-                        <Text style={stylesSinglePlaylist.descText}>{this.state.playlistObject.playlistDescription}</Text>
-                    </View>
                 </View>
+                
+                </TouchableHighlight>
+                
+                </View>
+                
             )
         }else{
             return(
@@ -117,7 +150,6 @@ class SinglePlaylist extends Component {
             getPlaylistImageURL(this.props.playlistId).then((imageUrl) => {
                 console.log("ABC")
                 this.setState({coverImage : imageUrl})
-                this.test = this._renderCoverImage(imageUrl)
                 this.setState({imageIsLoaded : true})
                 
             }).catch(err => {
@@ -126,22 +158,15 @@ class SinglePlaylist extends Component {
 
             return true
 
-        /*
-        const playlistObject = await getPlaylistFromId(this.props.playlistId)
-        this.setState({playlistObject : playlistObject})
-        const imageUrl =  await getPlaylistImageURL(this.props.playlistId)
-        this.setState({coverImage : imageUrl}) 
-        this.setState({isLoaded: true }) //allow things to render
-        */
         
     }
 
-    _renderCoverImage = (imageurl) => {
+    _renderCoverImage = () => {
         //TODO: Strange Error here where images are cross-contaminating
-        if(true){
+        if(this.state.imageIsLoaded){
             return(
                 <Image 
-                    source={{uri : imageurl}}
+                    source={{uri : this.state.coverImage}}
                     style={{width: 60, height: 60}}
                 />
             )
@@ -154,16 +179,71 @@ class SinglePlaylist extends Component {
             )
         }
     }
+
+    _onPressButton = () => {
+        Alert.alert(
+            this.state.playlistObject.playlistSpotifyName,
+            this.state.playlistObject.playlistDescription,
+            [
+                {
+                    text : "OK",
+                    onPress: () => console.log("test")
+                }
+            ],
+            {cancelable: false}
+        )
+    }
+
+    _onLongPressButton = () => {
+        
+        Alert.alert(
+            'Edit?',
+            'Would you like to edit or delete this playlist?',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {
+                  text: "Delete",
+                  onPress: () => this._deleteAlert()
+                },
+              {text: 'Yes', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+    }
+
+    _deleteAlert = () => {
+        Alert.alert(
+            'Remove?',
+            'Are you sure you would like to remove this playlist?',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'Yes', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+    }
+
+
 }
 
 SinglePlaylist.defaultProps = {
     playlistId : ""
 }
 
+
+
+
 const stylesSinglePlaylist = StyleSheet.create({
     container: {
         flexDirection: "row",
-        backgroundColor: "#666",
         width : '100%',
         height : 75,
         margin : 5
@@ -177,28 +257,38 @@ const stylesSinglePlaylist = StyleSheet.create({
         color:'white',
         fontWeight: 'bold',
         fontSize: 20,
+        width : '100%',
     },
     descText : {
         color:'white',
         fontSize: 12,
     },
+    horizontalLine : {
+        width : '80%',
+        height : 2,
+        justifyContent: 'center',
+        marginLeft : 'auto',
+        marginRight : 'auto',
+        opacity : 100,
+    }
     
 
 
 });
 
 
-const stylesShowHostedPlaylist = StyleSheet.create({
+const stylesShowPlaylist = StyleSheet.create({
     container: {
-        backgroundColor: "#666",
         width : '100%',
         height : '100%',
         margin : 5
     },
     titleText : {
+        marginLeft : 5,
         color:'white',
         fontWeight: 'bold',
-        fontSize: 30,
+        fontSize: 50,
     },
 
 });
+

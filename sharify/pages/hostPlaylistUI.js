@@ -6,11 +6,19 @@ import SpotifyWebAPI from 'spotify-web-api-js';
 import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
 import{createAsHost} from "../firebaseHelper.js"
 
-import ShowHostedPlaylists from "../src/components/ShowHostedPlaylists.js"
+import ShowPlaylists from "../src/components/ShowPlaylists.js"
+import CreatePlaylistButton from "../src/components/CreatePlaylistButton.js"
+
 
 export default class hostPage extends Component {
     static navigationOptions = {
-        title: 'Host Page',
+        title: 'Host',
+        headerStyle: {
+            backgroundColor : '#070600',
+            //backgroundColor : '#FCA311',
+            
+          },
+          headerTintColor : 'white'
       };
 
     constructor(props) {
@@ -49,33 +57,18 @@ export default class hostPage extends Component {
 
     render() {
         return (
-            <View style = {{ flex: 1, justifyContent: "center",
-            alignItems: "center"}}>
-            <Text>{this.state.tempVar}</Text>
-            <TextInput
-                style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                onChangeText={text => {this.setState({name : text})}}
-                value={this.state.name}
-            />
-            <Button title="Grab User Data for Items Below (optional)" onPress={this._getUserData} />
-            <View style={[{margin: 5}]}>
-            <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
-            </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Create a Playlist" onPress={this._generatePlaylist}/>
-            </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Add Defined Songs to a Playlist" onPress={this._addToPlaylists}/>
-            </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Contribute Your Favorites to Playlist" onPress={this._addTopTracksToPlaylists}/>
-            
-            </View>
-            <ShowHostedPlaylists
-                width={'100%'}
-                height={'100%'}
-
-            />
+            <View style={{backgroundColor : "#1D1C17"}}>
+                
+                <View style={{height : '80%', marginBottom : 5}}>
+                    <ShowPlaylists
+                        hosted = {true}
+                    />
+                </View>
+                <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
+                    <CreatePlaylistButton 
+                        onPress = {this._generatePlaylist}
+                    />
+                </View>
             </View>
         );
     }
@@ -106,20 +99,6 @@ export default class hostPage extends Component {
         
             };
 
-    // This feature was moved to joinerPlaylistUI page but left here just in case (it is not callable from UI now)
-    _followPlaylist = async () => {
-
-        const sp = await getValidSPObj();
-        const { id: userId } = await sp.getMe(); 
-        
-        sp.followPlaylist(this.state.playlist_id, {public:false});
-        
-                this.setState({
-                    "tempVar": "You just followed a playlist created by a Sharify user."
-                }, () => {
-                });
-        
-            };
 
     _generatePlaylist = async () => {
 
@@ -133,6 +112,7 @@ export default class hostPage extends Component {
                 "tempVar": "You just created a collaborative playlist."
             }, () => {
             });
+        alert("Playlist " + this.state.name + " created!")
     
         };
 

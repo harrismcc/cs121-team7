@@ -42,7 +42,7 @@ export const createNewUserInDatabase = (user) => {
         });
 
             
-}
+    }
 
 //gets all fields from user doc as json
     //returns json object
@@ -100,33 +100,30 @@ export const getPlaylistFromId = async(id) => {
 }
 
 export const getPlaylistImageURL = async(id) => {
-    
-    playlistObject = await getPlaylistFromId(id)
-    spotifyID = playlistObject.playlistSpotifyID
-    console.log("Spotify ID: " + spotifyID)
+    //chain this whole thing in .then statements
+    playlistObject = await getPlaylistFromId(id).catch(err => {console.error(err)})
+    const spotifyID = playlistObject.playlistSpotifyID
   
 
-    const sp = await getValidSPObj();
+    return await getValidSPObj().then(sp => {
+        return sp.getPlaylist(spotifyID).then(images => {
+            const myImages = images["images"]
+            console.log("My Images: " + JSON.stringify(myImages))
 
-    images = null;
-    image = null;
-    //TODO: This is causing the cross-contamination error SOMEHOW. fix.
-    await sp.getPlaylist(spotifyID).then(images => {
-        images = images["images"]
+            if (myImages[0]) {
+                return myImages[0]["url"]
+            }else{
+                return "https://images.rapgenius.com/0bfa0730f0f4251355f6311af8961917.1000x1000x1.jpg"
+            }
+            
+    
+        }).catch(err => {
+            console.error("Error in getPlaylist in getPlaylistImageURL: " + err)
+        });
+    }).catch(err => {
+        console.error("Error in getValidSPObj in getPlaylistImageURL: " + err)
+    })
 
-        if (images == []){
-            image = "https://images.rapgenius.com/0bfa0730f0f4251355f6311af8961917.1000x1000x1.jpg"
-        }else{
-            image = images[0]["url"]
-        }
-
-    });
-    
-    
-    await console.log("Image Url: " + image + " Spotify ID: " + spotifyID)
-    
-    
-    return image
 
 
 }
