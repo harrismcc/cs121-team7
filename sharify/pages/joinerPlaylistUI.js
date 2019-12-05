@@ -22,13 +22,13 @@ export default class joinerPage extends Component {
 }
     render() {
         return (
-            <View style = {{ flex: 1, justifyContent: "center",
-            alignItems: "center"}}>
+            <View style = {styles.container}>
             <Text>Welcome, {this.state.tempVar} </Text>
-            <View style={[{margin: 5}]}>
+
+            <View style={styles.buttonText}>
             <Button title="Follow a Playlist" onPress={this._followPlaylist}/>
             </View>
-            <View style={[{margin: 5}]}>
+            <View style={styles.buttonText}>
             <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
             </View>
             </View>

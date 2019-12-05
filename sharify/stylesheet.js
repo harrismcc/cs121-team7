@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
       justifyContent: 'center',
       marginTop: 0, 
     },
+    buttonText:{
+        backgroundColor: '#656565',
+        color: "white",
+        margin : 5,
+    },
     submitButton: {
         position: 'absolute',
         bottom:550,
@@ -18,11 +23,15 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom:160,
         alignItems: 'center',
+        fontSize : 40,
+        fontWeight: 'bold',
     },
     joinButton: {
         position: 'absolute',
         bottom:160,
         right:75,
+        fontSize : 40,
+        fontWeight: 'bold',
     },
     buttonImage: {
         flex: 1,

@@ -13,30 +13,20 @@ import {styles} from './stylesheet.js'
 export class MainScreen extends React.Component {
   state = { loggedIn: null };
   
-
-
     static navigationOptions = {
-      title: 'MainScreen',
-      backgroundColor: "#339900",
+      title: 'Sharify',
+      backgroundColor: "#555555",
     };
   
-    
-
-    
    constructor(props) {
     super(props);
      
-    
-
     //set default state
     this.state = {
       result: null,
     };
    }
 
-   
-    
-    
    render() {
     const {navigate} = this.props.navigation;
     return (

@@ -9,7 +9,7 @@ import { TabRouter } from 'react-navigation';
 
 export class LoginFormPage extends Component {
   static navigationOptions = {
-    title: 'Welcome!',
+    title: 'Manage Account',
   };
   state = { loggedIn: null };
 
@@ -36,6 +36,7 @@ export class LoginFormPage extends Component {
     if (this.state.loggedIn) {
       return (<Button
         title="Log out"
+        color = "white"
         onPress={() => firebase.auth().signOut()} />)
     } else {
       return (
@@ -45,9 +46,9 @@ export class LoginFormPage extends Component {
   }
   render() {
     return (
-        <View style={{width: 300, 
+        <View style={{ 
           flex: 5,
-          backgroundColor: '999999',
+          backgroundColor: '#555555',
           alignItems: 'flex-start',
           justifyContent: 'flex-start'}}>
             {this.renderComponent()}

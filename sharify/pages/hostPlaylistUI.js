@@ -45,21 +45,22 @@ export default class hostPage extends Component {
 
     render() {
         return (
-            <View style = {{ flex: 1, justifyContent: "center",
-            alignItems: "center"}}>
-            <Text>{this.state.tempVar}</Text>
-            <Button title="Grab User Data for Items Below (optional)" onPress={this._getUserData} />
-            <View style={[{margin: 5}]}>
-            <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
+            <View style = {styles.container}>
+            <Text color = "white" >{this.state.tempVar}</Text>
+            <View style={styles.buttonText}>
+            <Button title="Create a Playlist" color = "white" onPress={this._generatePlaylist}/>
             </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Create a Playlist" onPress={this._generatePlaylist}/>
+            <View style={styles.buttonText}>
+            <Button title="Grab User Data for Items Below (optional)" color = "white" onPress={this._getUserData} />
             </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Add Defined Songs to a Playlist" onPress={this._addToPlaylists}/>
+            <View style={styles.buttonText}>
+            <Button title="Resume Playback on Active Device" color = "white" onPress={this._resumePlayback}/>
             </View>
-            <View style={[{margin: 5}]}>
-            <Button title="Contribute Your Favorites to Playlist" onPress={this._addTopTracksToPlaylists}/>
+            <View style={styles.buttonText}>
+            <Button title="Add Defined Songs to a Playlist" color = "white" onPress={this._addToPlaylists}/>
+            </View>
+            <View style={styles.buttonText}>
+            <Button title="Contribute Your Favorites to Playlist" color = "white" onPress={this._addTopTracksToPlaylists}/>
             </View>
             </View>
         );
