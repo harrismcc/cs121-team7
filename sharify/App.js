@@ -21,6 +21,7 @@ import JoinPage from "./pages/joinerPlaylistUI.js"
 
 //Init navigator and add pages
 const MainNavigator = createStackNavigator({
+  MainPage: {screen: MainScreen},
   Home: {screen: ShowPlaylists},
   SpotifyAuth: {screen: AuthorizeWithSpotify},
   LoginPage: {screen: LoginFormPage},
@@ -28,8 +29,8 @@ const MainNavigator = createStackNavigator({
   RecsPage : {screen: RecsPage},
   JoinPage : {screen: JoinPage},
   HostPage : {screen: HostPage},
-  QrCodePage : {screen: QrCodeReader},
-  MainPage: {screen: MainScreen}
+  QrCodePage : {screen: QrCodeReader}
+  
 });
 
 //create app from navigator

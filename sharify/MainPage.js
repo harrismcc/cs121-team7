@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, Button, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { Text, View, Button, ScrollView, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { AuthorizeWithSpotify } from "./spotifyAuth.js";
 import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
@@ -11,48 +11,68 @@ import {styles} from './stylesheet.js'
 
 //This page is the main page that shows the lists of playlist names
 export class MainScreen extends React.Component {
+  state = { loggedIn: null };
+  
+
+
     static navigationOptions = {
       title: 'MainScreen',
       backgroundColor: "#339900",
     };
   
+    
+
+    
    constructor(props) {
     super(props);
      
+    
+
     //set default state
     this.state = {
       result: null,
     };
    }
+
+   
+    
     
    render() {
     const {navigate} = this.props.navigation;
     return (
-       
       <View style={styles.container}>
-        <View>
-          <TouchableOpacity onPress={() => navigate('SpotifyAuth')}/>
-          <Image
-                    source={require('./assets/green_button.png')}
-                    style={styles.mainButton}
-                    onPress={() => navigate('SpotifyAuth')}
-                   />
-        </View>
-            <View>
-                <View style = {styles.mainButton}>
-                   <Image
-                    source={require('./assets/green_button.png')}
-                    style={styles.mainButton}
-                    onPress={() => navigate('SpotifyAuth')}
-                   />
-                </View>
-
-    </View>
-    </View>
+        <ImageBackground 
+          style={styles.buttonImage}
+          source={require('./assets/green_button.png')}
+          onPress={() => navigate('HostPage')}
+        >
+            <View style={styles.hostButton}>
+              <Button title = "Host" color = "black" onPress={() => navigate('HostPage')}/>
+            </View>
+        </ImageBackground>
+        <ImageBackground 
+          style={styles.buttonImage2}
+          source={require('./assets/green_button.png')}
+          onPress={() => navigate('HostPage')}
+        >
+            <View style={styles.joinButton}>
+              <Button title = "Join" color = "black" onPress={() => navigate('JoinPage')}/>
+            </View>
+        </ImageBackground>
+        <View style={styles.submitButton}>
+              <Button title = "Log in" color = "white" onPress={() => navigate('LoginPage')}/>
+            </View>
+      </View>
     );
   }
   
-    
+  renderComponent() {
+    if (this.state.loggedIn) {
+      return ("Log out")
+    } else {
+      return ("Log out")
+    }
+  }
 
     qrnavigation = async() => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);

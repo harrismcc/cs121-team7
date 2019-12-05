@@ -3,11 +3,46 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#999999',
+      backgroundColor: '#555555',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 40, 
+      marginTop: 0, 
     },
+    submitButton: {
+        position: 'absolute',
+        bottom:550,
+        right:20,
+        backgroundColor: '#656565', 
+    },
+    hostButton: {
+        position: 'absolute',
+        bottom:160,
+        alignItems: 'center',
+    },
+    joinButton: {
+        position: 'absolute',
+        bottom:160,
+        right:75,
+    },
+    buttonImage: {
+        flex: 1,
+        backgroundColor: '#555555',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 0, 
+        height: 200, 
+        width : 200,
+        marginTop : 40 
+      },
+      buttonImage2: {
+        flex: 1,
+        backgroundColor: '#555555',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 0, 
+        height: 200, 
+        width : 200,
+      },
     labeledSlider: {
         flex: 1,
         maxHeight:25,
@@ -59,3 +94,4 @@ export const styles = StyleSheet.create({
             flexDirection:"row",
     }
   });
+// Futura
