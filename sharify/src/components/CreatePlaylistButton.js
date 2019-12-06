@@ -23,7 +23,7 @@ export default class CreatePlaylistButton extends Component{
                     onPress={this.props.onPress}
                 >
                     <View style={{justifyContent : 'center', alignItems : 'center'}}>
-                        <Text style={stylesCreatePlaylistButton.titleText}>
+                        <Text style={this.props.textStyle}>
                             {this.props.buttonText}
                         </Text>
                     </View>
@@ -60,7 +60,13 @@ class CreatePlaylistModal extends Component{
     }
 }
 CreatePlaylistModal.defaultProps = {
-    visible : false
+    visible : false,
+    textStyle :  {
+        color:'white',
+        fontWeight: 'bold',
+        fontSize: 30,
+
+    }
 }
 
 const stylesCreatePlaylistButton = StyleSheet.create({

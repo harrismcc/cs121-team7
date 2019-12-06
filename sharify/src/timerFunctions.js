@@ -1,11 +1,15 @@
 import React from 'react';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import {updateLocationInFirebase} from '../firebaseHelper'
+import {updateLocationInFirebase, setValueFromUserInDatabase, getCurrentUser} from '../firebaseHelper'
+import {getUserFloats} from "../../iterRec.js"
 
 export const startTimerInstance = (minutes) => {
-    _runTimerTasks() //run once to start, then run every x minutes
-    this.timer = setInterval(()=> _runTimerTasks(), minutes*60000)
+    //only run timer functions if user is logged in
+    if (getCurrentUser()){
+        _runTimerTasks() //run once to start, then run every x minutes
+        this.timer = setInterval(()=> _runTimerTasks(), minutes*60000)
+    }
 }
 
 const _runTimerTasks = () => {
@@ -13,6 +17,15 @@ const _runTimerTasks = () => {
     //update geo-location of hosted playlists
     _getLocationAsync();
      //add songs from que's of hosted playlists
+
+     //update users spotify preferences in database
+     getUserFloats().then((myFloats) => {
+        user = getCurrentUser()
+        if(user){
+            setValueFromUserInDatabase(user, spotifyFloats, myFloats)
+        }
+        
+     })
 }
 
 

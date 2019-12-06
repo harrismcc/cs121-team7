@@ -43,27 +43,35 @@ export default class ShowPlaylists extends Component {
 
     _getUsersHostedPlaylists = async() => {
         hostList = await getValueFromUserInDatabase()
-        this.setState({hostingList : hostList["hosting"]})
+        if(hostList){
+            this.setState({hostingList : hostList["hosting"]})
+        }
+        
 
     }
 
     _getUsersGuestPlaylists = async() => {
         hostList = await getValueFromUserInDatabase()
-        this.setState({hostingList : hostList["guest"]})
+        if (hostList){
+            this.setState({hostingList : hostList["guest"]})
+        }
+        
 
     }
 
     _mapAllHostedLists = () => {
         key = 0
-        return this.state.hostingList.map(playlist => {
-            key += 1
-            return(
-                <SinglePlaylist
-                        playlistId = {playlist}
-                        key = {key}
-                />
-            )
-        })
+        if (!(this.state.hostingList == [] || this.state.hostingList == undefined || this.state.hostingList == null)){
+            return this.state.hostingList.map(playlist => {
+                key += 1
+                return(
+                    <SinglePlaylist
+                            playlistId = {playlist}
+                            key = {key}
+                    />
+                )
+            })
+        }
     }
 }
 ShowPlaylists.defaultProps  = {

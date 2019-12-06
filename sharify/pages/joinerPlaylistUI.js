@@ -42,6 +42,12 @@ export default class joinerPage extends Component {
                     <CreatePlaylistButton 
                         buttonText = {"Join Playlist"}
                         onPress = {() => navigate('QrCodePage')}
+                        textStyle = {{
+                            color:'white',
+                            fontWeight: 'bold',
+                            fontSize: 30,
+                    
+                        }}
                     />
                 </View>
             </View>

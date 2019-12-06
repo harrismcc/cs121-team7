@@ -9,10 +9,12 @@ if (!firebase.apps.length) {
     //firebase.analytics();
 }
 
+
 //globals here to set collection name across the board
 const globalCollectionName = 'userCollection';
 
 export const getCurrentUser = () => {
+
     return firebase.auth().currentUser
 }
 

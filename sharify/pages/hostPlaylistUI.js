@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { View, Button, Text, ScrollView, AsyncStorag, TextInput } from 'react-native';
-import firebase from 'firebase';
-import { styles } from '../stylesheet.js'
-import SpotifyWebAPI from 'spotify-web-api-js';
-import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
+import { View} from 'react-native';
+import { getValidSPObj} from "../spotifyAuth.js";
 import{createAsHost} from "../firebaseHelper.js"
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 import ShowPlaylists from "../src/components/ShowPlaylists.js"
 import CreatePlaylistButton from "../src/components/CreatePlaylistButton.js"
@@ -53,24 +51,50 @@ export default class hostPage extends Component {
             timeRange : "medium_term"
 
          }
-}
+    }
+
+    
 
     render() {
+        const config = {
+            velocityThreshold: 0.2,
+            directionalOffsetThreshold: 80
+          };
+          const {navigate} = this.props.navigation;
+        
         return (
+            
             <View style={{backgroundColor : "#1D1C17"}}>
-                
-                <View style={{height : '80%', marginBottom : 5}}>
-                    <ShowPlaylists
-                        hosted = {true}
-                    />
-                </View>
-                <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
-                    <CreatePlaylistButton 
-                        onPress = {this._generatePlaylist}
-                    />
-                </View>
+                <GestureRecognizer
+                onSwipeLeft={() => navigate("JoinPage")}
+                config={config}
+                >
+                    
+                    <View style={{height : '80%', marginBottom : 5}}>
+                        <ShowPlaylists
+                            hosted = {true}
+                        />
+                    </View>
+                    <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
+                        <CreatePlaylistButton 
+                            onPress = {this._generatePlaylist}
+                            textStyle = {{
+                                color:'white',
+                                fontWeight: 'bold',
+                                fontSize: 30,
+                        
+                            }}
+                        />
+                    </View>
+                </GestureRecognizer>
             </View>
         );
+    }
+
+    onSwipeRight(gestureState) {
+        const navigate = this.props.navigation;
+        alert("Right Swipe!")
+        navigate("JoinPage")
     }
 
     _getUserData = async () => {
