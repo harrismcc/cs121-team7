@@ -17,6 +17,7 @@ import { MainScreen } from "./MainPage.js"
 import PlaySong from "./pages/playSong.js"
 import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
+import CreatePage from "./pages/createNew.js"
 import hostPage from './pages/hostPlaylistUI.js';
 
 
@@ -30,10 +31,12 @@ const MainNavigator = createStackNavigator({
   LoginPage: {screen: LoginFormPage},
   MusicPage: {screen: PlaySong},
   RecsPage : {screen: RecsPage},
-  // JoinPage : {screen: JoinPage},
-  // HostPage : {screen: HostPage},
+  JoinPage : {screen: JoinPage},
+  HostPage : {screen: HostPage},
   QrCodePage : {screen: QrCodeReader},
-  
+  CreatePage : {screen : CreatePage},
+  DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
+ 
 });
 
 const HostNavigator = createStackNavigator({

@@ -120,6 +120,7 @@ export default class LoginForm extends Component {
   onLoginSuccess() {
 
     //creates new entry for user if user doesn't exist yet
+    alert("running createNewUserInDatabase")
     createNewUserInDatabase(firebase.auth().currentUser);
 
     this.setState({

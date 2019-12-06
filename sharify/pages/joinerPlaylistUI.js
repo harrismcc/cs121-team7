@@ -36,6 +36,7 @@ export default class joinerPage extends Component {
                 <View style={{height : '80%', marginBottom : 5}}>
                     <ShowPlaylists
                         hosted = {false}
+                        navigation={this.props.navigation}
                     />
                 </View>
                 <View style={{alignItems : 'center', justifyContent : 'center', height : '20%', width : '100%'}}>

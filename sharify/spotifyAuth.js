@@ -182,6 +182,8 @@ export const getValidSPObj = async () => {
   //write access token to firebase
   setValueFromUserInDatabase(getCurrentUser(),'spotifyToken', accessToken);
   setValueFromUserInDatabase(getCurrentUser(),'spotifyUserId', userId);
+  //setValueFromUserInDatabase(getCurrentUser(),'guest', []); //Experimental
+  //setValueFromUserInDatabase(getCurrentUser(),'hosting', []);
   //END FIREBASE VALUES
 
   return sp;
@@ -277,11 +279,27 @@ export const createNewPlaylist = async (name, description, isPublic) => {
 }
 
 //an unfinished function to search for a track
-export const searchForTracks = async () => {
+export const getPlaylistTracks = async (playlistId) => {
   const sp = await getValidSPObj();
   //hardcoded song title, for now
-  const {tracks: tracks} = await sp.searchTracks("April Come She Will", {limit: 2});
-  return tracks;
+  var bearer = 'Bearer ' + sp.getAccessToken();
+  let data = {
+            method: 'GET',
+            headers: {
+                'Authorization': bearer,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }
+
+        link = me["href"] + "/playlists/"+playlistId+"/tracks"
+
+    tracks = await fetch(link,data).then((response) => {
+      console.log(response)
+    })
+
+    return tracks
+    
 }
 
 
