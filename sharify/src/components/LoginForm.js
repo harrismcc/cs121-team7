@@ -198,6 +198,7 @@ export default class LoginForm extends Component {
         >
         <Input
           label="Email"
+          color = "white"
           placeholder="colleen@CS.com"
           value={this.state.email}
           secureTextEntry={false}
@@ -245,5 +246,12 @@ const styles = {
       position: 'absolute',
       bottom:0,
       left:0,
-  }
+      backgroundColor: '#656565',
+      color: "white",
+  },
+  buttonText:{
+    backgroundColor: '#656565',
+    color: "white",
+    margin : 5,
+},
 }

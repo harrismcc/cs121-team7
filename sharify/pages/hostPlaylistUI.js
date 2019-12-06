@@ -62,7 +62,7 @@ export default class hostPage extends Component {
           };
           const {navigate} = this.props.navigation;
         
-        return (
+       return (
             
             <View style={{backgroundColor : "#1D1C17"}}>
                 <GestureRecognizer

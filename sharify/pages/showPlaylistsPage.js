@@ -68,7 +68,9 @@ export class ShowPlaylists extends React.Component {
               source = {require("../assets/myPlaylist.png")}
             />
           </View>
-
+          <View style={[{margin: 0}]}>
+            <Button  title="Go To Main Page" onPress={() => navigate('MainPage')}/>
+          </View>
           
 
           <View style={{height: 400}}>

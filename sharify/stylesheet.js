@@ -3,10 +3,55 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#999999',
+      backgroundColor: '#555555',
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: 0, 
     },
+    buttonText:{
+        backgroundColor: '#656565',
+        color: "white",
+        margin : 5,
+    },
+    submitButton: {
+        position: 'absolute',
+        bottom:550,
+        right:20,
+        backgroundColor: '#656565', 
+    },
+    hostButton: {
+        position: 'absolute',
+        bottom:160,
+        alignItems: 'center',
+        fontSize : 40,
+        fontWeight: 'bold',
+    },
+    joinButton: {
+        position: 'absolute',
+        bottom:160,
+        right:75,
+        fontSize : 40,
+        fontWeight: 'bold',
+    },
+    buttonImage: {
+        flex: 1,
+        backgroundColor: '#555555',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 0, 
+        height: 200, 
+        width : 200,
+        marginTop : 40 
+      },
+      buttonImage2: {
+        flex: 1,
+        backgroundColor: '#555555',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 0, 
+        height: 200, 
+        width : 200,
+      },
     labeledSlider: {
         flex: 1,
         maxHeight:25,
@@ -46,5 +91,16 @@ export const styles = StyleSheet.create({
         marginBottom: 2,
         borderWidth: 2, 
         borderRadius: 5
+    },
+    mainButton: {
+            height: 250, 
+            width: 250,
+            marginBottom: 10, 
+            backgroundColor: '#474747', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            borderRadius: 15,
+            flexDirection:"row",
     }
   });
+// Futura
