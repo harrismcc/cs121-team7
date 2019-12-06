@@ -45,21 +45,9 @@ export class MainScreen extends React.Component {
                 onSwipeRight={() => navigate("HostPage")}
                 config={config}
                 >
-                    
-                    <View style={{height : '80%', marginBottom : 5}}>
+                    <View style={{height : '100%', marginBottom : 5}}>
                         <MainPageShow
                             hosted = {true}
-                        />
-                    </View>
-                    <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
-                        <CreatePlaylistButton 
-                            onPress = {this._generatePlaylist}
-                            textStyle = {{
-                                color:'white',
-                                fontWeight: 'bold',
-                                fontSize: 30,
-                        
-                            }}
                         />
                     </View>
                 </GestureRecognizer>

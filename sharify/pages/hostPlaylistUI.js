@@ -65,7 +65,7 @@ export default class hostPage extends Component {
        return (
             
             <View style={{backgroundColor : "#1D1C17"}}>
-                    <View style={{height : '80%', marginBottom : 5}}>
+                    <View style={{height : '80%', marginBottom : 5, marginTop : 20}}>
                         <ShowPlaylists
                             navigation={this.props.navigation}
                             hosted = {true}

@@ -33,7 +33,7 @@ export default class joinerPage extends Component {
         return (
             <View style={{backgroundColor : "#1D1C17"}}>
                 
-                <View style={{height : '80%', marginBottom : 5}}>
+                <View style={{height : '80%', marginBottom : 5, marginTop : 20}}>
                     <ShowPlaylists
                         hosted = {false}
                         navigation={this.props.navigation}
