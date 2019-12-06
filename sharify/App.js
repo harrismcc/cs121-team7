@@ -1,6 +1,8 @@
 //pagination
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import React from 'react';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 //must be installed
 import { AsyncStorage } from 'react-native';
@@ -15,6 +17,7 @@ import { MainScreen } from "./MainPage.js"
 import PlaySong from "./pages/playSong.js"
 import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
+import hostPage from './pages/hostPlaylistUI.js';
 
 
 
@@ -33,8 +36,33 @@ const MainNavigator = createStackNavigator({
   
 });
 
+
+const bottomTabNavigator = createBottomTabNavigator(
+  {
+    HostPage : {screen: HostPage},
+    MainPage: {screen: MainScreen},
+    JoinPage : {screen: JoinPage},
+    LoginPage: {screen: LoginFormPage},
+  },
+  {
+    initialRouteName: 'MainPage',
+    //navigationOptions : MainNavigator
+    // {
+    //   SpotifyAuth: {screen: AuthorizeWithSpotify},
+    //   LoginPage: {screen: LoginFormPage},
+    //   QrCodePage : {screen: QrCodeReader},
+    // }
+  }
+);
+
 //create app from navigator
-const App = createAppContainer(MainNavigator);
+const App = createAppContainer(bottomTabNavigator);
+
+
+// const App = createSwitchNavigator({
+//   Main :  MainScreenNavigator,
+//   App : {screen : bottomTabNavigator} 
+// })
 
 //export app object
 export default App;

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, Button, ScrollView, Image, TouchableOpacity, ImageBackground } from 'react-native';
-import { AuthorizeWithSpotify } from "./spotifyAuth.js";
-import { AsyncStorage } from 'react-native';
 import * as Permissions from 'expo-permissions';
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 // This page also has the buttons to navigate to other pages
 
@@ -12,6 +11,7 @@ import {styles} from './stylesheet.js'
 //This page is the main page that shows the lists of playlist names
 export class MainScreen extends React.Component {
   state = { loggedIn: null };
+  
   
     static navigationOptions = {
       title: 'Sharify',
@@ -26,7 +26,7 @@ export class MainScreen extends React.Component {
       result: null,
     };
    }
-
+   
    render() {
     const {navigate} = this.props.navigation;
     return (
