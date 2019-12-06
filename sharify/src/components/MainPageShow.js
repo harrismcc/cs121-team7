@@ -1,33 +1,30 @@
 import React, { Component } from 'react';
 import { View, Image, Text, ScrollView, StyleSheet, TouchableHighlight, Alert } from 'react-native';
-import {getPlaylistFromId, getPlaylistImageURL, getValueFromUserInDatabase, createNewUserInDatabase, getCurrentUser} from "../../firebaseHelper.js"
+import {getPlaylistFromId, getPlaylistImageURL, getValueFromUserInDatabase} from "../../firebaseHelper.js"
 
 
-export default class ShowPlaylists extends Component {
+export default class MainPageShow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            topMargin : 45,
-            title : "My Hosted Playlists",
+            title : "My Playlists",
             test : "abc",
-            hostingList : []
+            hostingList : [],
+            topMargin : 45,
         }
-        1
-        //console.disableYellowBox = true;
         
     }
 
     componentDidMount() {
-        createNewUserInDatabase(getCurrentUser()); //make sure user is setup
 
         if (this.props.hosted){
             this._getUsersHostedPlaylists()
-            this.setState({title : "My Hosted Playlists"})
+            this.setState({title : "My Playlists"})
         }
 
         else{
             this._getUsersGuestPlaylists()
-            this.setState({title : "My Joined Playlists"})
+            this.setState({title : "My Playlists"})
         }
         
     }
@@ -70,7 +67,6 @@ export default class ShowPlaylists extends Component {
                 key += 1
                 return(
                     <SinglePlaylist
-                            navigation={this.props.navigation}
                             playlistId = {playlist}
                             key = {key}
                     />
@@ -79,14 +75,14 @@ export default class ShowPlaylists extends Component {
         }
     }
 }
-ShowPlaylists.defaultProps  = {
+MainPageShow.defaultProps  = {
     hosted : true
 }
 
 
 export class SinglePlaylist extends Component {
     constructor(props) {
-        //console.disableYellowBox = true //TODO: DELETE THIS OMG
+        console.disableYellowBox = true //TODO: DELETE THIS OMG
         super(props);
         this.state = {
             playlistObject : {
@@ -96,7 +92,6 @@ export class SinglePlaylist extends Component {
             coverImage : "",
             playlistIsLoaded: false,
             imageIsLoaded : false,
-            playlistId : "", 
         }
         
         
@@ -104,8 +99,6 @@ export class SinglePlaylist extends Component {
     componentDidMount(){
        
         this._storePlaylistInfoInState()
-        this.timer = setInterval(()=> this._storePlaylistInfoInState(), 5000)//5 seconds
-        //TODO: this refreshed the names but not new items?
         
         
         
@@ -154,34 +147,25 @@ export class SinglePlaylist extends Component {
 
     _storePlaylistInfoInState = () => {
         
-
             //Non-async version of this code:
-            if (this.props.playlistId){
 
-                getPlaylistFromId(this.props.playlistId).then((playlist) => {
-                    if (playlist != this.state.playlistObject){
-                        this.setState({playlistObject : playlist})
-                        this.setState({playlistIsLoaded : true})
-                    }
-                    
-                }).catch(err => {
-                    console.error("Error while setting playlist object in SinglePlaylist" + err)
-                })
+            getPlaylistFromId(this.props.playlistId).then((playlist) => {
+                this.setState({playlistObject : playlist})
+                this.setState({playlistIsLoaded : true})
+            }).catch(err => {
+                console.error("Error while setting playlist object in SinglePlaylist" + err)
+            })
+            
+            getPlaylistImageURL(this.props.playlistId).then((imageUrl) => {
+                console.log("ABC")
+                this.setState({coverImage : imageUrl})
+                this.setState({imageIsLoaded : true})
                 
-                getPlaylistImageURL(this.props.playlistId).then((imageUrl) => {
-                    if (imageUrl != this.state.coverImage){
-                        this.setState({coverImage : imageUrl})
-                        this.setState({imageIsLoaded : true})
-                    }
-                    
-                    
-                }).catch(err => {
-                    console.error("Error while setting cover image in SinglePlaylist" + err)
-                })
+            }).catch(err => {
+                console.error("Error while setting cover image in SinglePlaylist" + err)
+            })
 
-                this.setState({playlistId : this.props.playlistId})
-
-        }
+            return true
 
         
     }
@@ -206,8 +190,17 @@ export class SinglePlaylist extends Component {
     }
 
     _onPressButton = () => {
-
-        this.props.navigation.navigate('DisplaySinglePlaylistPage', {"playlistId" : this.state.playlistId});
+        Alert.alert(
+            this.state.playlistObject.playlistSpotifyName,
+            this.state.playlistObject.playlistDescription,
+            [
+                {
+                    text : "OK",
+                    onPress: () => console.log("test")
+                }
+            ],
+            {cancelable: false}
+        )
     }
 
     _onLongPressButton = () => {
@@ -297,7 +290,7 @@ const stylesShowPlaylist = StyleSheet.create({
     container: {
         width : '100%',
         height : '100%',
-        backgroundColor : "#1D1C17",
+        margin : 5
     },
     titleText : {
         marginLeft : 5,
