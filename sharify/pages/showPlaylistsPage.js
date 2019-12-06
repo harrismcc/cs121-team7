@@ -1,8 +1,10 @@
 import React from 'react';
-import { Text, View, Button, ScrollView } from 'react-native';
+import { Text, View, Button, ScrollView, Image } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { getUserTopPlaylists, getUserTopTracks, testRec} from "../spotifyAuth.js";
 import * as Permissions from 'expo-permissions';
+import {startTimerInstance} from '../src/timerFunctions.js'
+import {getCurrentUser} from "../firebaseHelper.js"
 
 // This page also has the buttons to navigate to other pages
 
@@ -15,6 +17,17 @@ export class ShowPlaylists extends React.Component {
       title: 'Show Playlists',
       backgroundColor: "#339900",
     };
+
+    ///// TIMER SECTION ////
+    //this will run some tasks every x minutes no matter which page the user is on
+    //and will eventually be used to update things like geolocation and song queue
+    componentDidMount(){
+      //runs every 5 minutes
+      startTimerInstance(5);
+      console.log("Current User: " + getCurrentUser())
+      
+    }
+
   
    constructor(props) {
     super(props);
@@ -28,6 +41,7 @@ export class ShowPlaylists extends React.Component {
     render() {
       
       const {navigate} = this.props.navigation;
+      
       return (
         
         <View style={styles.container}>
@@ -48,8 +62,11 @@ export class ShowPlaylists extends React.Component {
           <View style={[{margin: 5}]}>
             <Button title="Join Playlist" onPress={() => navigate('JoinPage')}/>
           </View>
-          <View style={[{margin: 5}]}>
-            <Button title="QR Code" onPress={() => navigate('QrCodePage')}/>
+          <View>
+            <Image
+              style = {{width : 100, height : 100}}
+              source = {require("../assets/myPlaylist.png")}
+            />
           </View>
           <View style={[{margin: 0}]}>
             <Button  title="Go To Main Page" onPress={() => navigate('MainPage')}/>

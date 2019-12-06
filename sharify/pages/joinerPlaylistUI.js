@@ -3,11 +3,19 @@ import { View, Button, Text, ScrollView, AsyncStorage } from 'react-native';
 import firebase from 'firebase';
 import {styles} from '../stylesheet.js'
 import { getValidSPObj } from "../spotifyAuth.js";
+import ShowPlaylists from "../src/components/ShowPlaylists.js"
+import CreatePlaylistButton from "../src/components/CreatePlaylistButton.js"
 
 
 export default class joinerPage extends Component {
     static navigationOptions = {
         title: 'Join Page',
+        headerStyle: {
+            backgroundColor : '#070600',
+            //backgroundColor : '#FCA311',
+            
+          },
+          headerTintColor : 'white'
       };
 
     // Hard-coded song data to be changed to play any song
@@ -21,18 +29,28 @@ export default class joinerPage extends Component {
     };
 }
     render() {
+        const {navigate} = this.props.navigation;
         return (
-            <View style = {styles.container}>
-            <Text>Welcome, {this.state.tempVar} </Text>
-
-            <View style={styles.buttonText}>
-            <Button title="Follow a Playlist" onPress={this._followPlaylist}/>
+            <View style={{backgroundColor : "#1D1C17"}}>
+                
+                <View style={{height : '80%', marginBottom : 5}}>
+                    <ShowPlaylists
+                        hosted = {false}
+                    />
+                </View>
+                <View style={{alignItems : 'center', justifyContent : 'center', height : '20%', width : '100%'}}>
+                    <CreatePlaylistButton 
+                        buttonText = {"Join Playlist"}
+                        onPress = {() => navigate('QrCodePage')}
+                        textStyle = {{
+                            color:'white',
+                            fontWeight: 'bold',
+                            fontSize: 30,
+                    
+                        }}
+                    />
+                </View>
             </View>
-            <View style={styles.buttonText}>
-            <Button title="Resume Playback on Active Device" onPress={this._resumePlayback}/>
-            </View>
-            </View>
-            
         );
     }
 

@@ -1,5 +1,6 @@
 import {firebaseConfig} from "./secrets.js"
 import firebase from 'firebase'
+import {createNewPlaylist, getValidSPObj} from "./spotifyAuth.js"
 //THIS IS FROM ANOTHER APP BUT MIGHT BE USEFUL
 
 //check if firebase app is already initialized
@@ -8,10 +9,12 @@ if (!firebase.apps.length) {
     //firebase.analytics();
 }
 
+
 //globals here to set collection name across the board
 const globalCollectionName = 'userCollection';
 
 export const getCurrentUser = () => {
+
     return firebase.auth().currentUser
 }
 
@@ -41,12 +44,15 @@ export const createNewUserInDatabase = (user) => {
         });
 
             
-}
+    }
 
 //gets all fields from user doc as json
     //returns json object
 export const getValueFromUserInDatabase = async(user) => {
     require('firebase/firestore');
+        if(user == null){
+            user = getCurrentUser();
+        }
         const ref = await firebase.firestore().collection(globalCollectionName);
         
         //grabs all data from user doc and returns as json
@@ -75,18 +81,69 @@ export const setValueFromUserInDatabase = async(user,key,value) => {
 
 
 
+
+
 /////////// BEGIN PLAYLIST SECTION //////////////////
 const playlistCollectionName = 'playlists';
 
-//this function creates a new playlist with the current user as host
-export const createAsHost = async() => {
+
+export const getPlaylistFromId = async(id) => {
     require('firebase/firestore');
+    data = {}
+    const ref = firebase.firestore().collection(playlistCollectionName).doc(id);
+    await ref.get().then((doc) => {
+        data = doc.data()
+    }).catch((err) => {
+        console.error("Error fetching playlist data: " + err)
+    })
+
+    return data;
+
+}
+
+export const getPlaylistImageURL = async(id) => {
+    //chain this whole thing in .then statements
+    playlistObject = await getPlaylistFromId(id).catch(err => {console.error(err)})
+    const spotifyID = playlistObject.playlistSpotifyID
+  
+
+    return await getValidSPObj().then(sp => {
+        return sp.getPlaylist(spotifyID).then(images => {
+            const myImages = images["images"]
+            console.log("My Images: " + JSON.stringify(myImages))
+
+            if (myImages[0]) {
+                return myImages[0]["url"]
+            }else{
+                return "https://images.rapgenius.com/0bfa0730f0f4251355f6311af8961917.1000x1000x1.jpg"
+            }
+            
+    
+        }).catch(err => {
+            console.error("Error in getPlaylist in getPlaylistImageURL: " + err)
+        });
+    }).catch(err => {
+        console.error("Error in getValidSPObj in getPlaylistImageURL: " + err)
+    })
+
+
+
+}
+//this function creates a new playlist with the current user as host
+export const createAsHost = async(playlistName, playlistDescription) => {
+    require('firebase/firestore');
+
+    //STEP 0: create playlits in spotify
+    playlistId = await createNewPlaylist(playlistName, playlistDescription, true)
+
     //STEP 1: create new playlist object in collection 
     const ref = firebase.firestore().collection(playlistCollectionName);
     newId = "";
 
     test = await ref.add({
-        playlistSpotifyID: "null",
+        playlistSpotifyID: playlistId,
+        playlistSpotifyName : playlistName,
+        playlistDescription : playlistDescription,
         playlistDateCreated: new Date(),
     }).then(function(docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -110,7 +167,7 @@ export const createAsHost = async() => {
     if (hostingArray == undefined){ //add new id to existing list of hosted id's
         hostingArray = [newId];
     }else{
-        if (hostingArray.indexOf(newId) != -1){//prevents duplicates
+        if (hostingArray.indexOf(newId) == -1){//prevents duplicates
             hostingArray.push(newId);
         }
         
@@ -131,15 +188,17 @@ export const joinAsGuest = async(playlistId) => {
     playlistDoc = ref.doc(playlistId);
     const userId = getCurrentUser().uid;
 
+    
+
     //adds user as guest in playlist object, returs bool
     playlistDidExist = await playlistDoc.get().then(function(doc){
         if (doc.exists){
             
-            guestsArray = doc.data["guests"]
+            guestsArray = doc.data()["guests"]
             if (guestsArray == undefined){ //add new id to existing list of hosted id's
                 guestsArray = [userId];
             }else{
-                if (guestsArray.indexOf(userId) != -1){ //prevents duplicates
+                if (guestsArray.indexOf(userId) == -1){ //prevents duplicates
                     guestsArray.push(userId);
                 }
                 
@@ -158,16 +217,20 @@ export const joinAsGuest = async(playlistId) => {
     if (playlistDidExist){ 
         const ref = firebase.firestore().collection(globalCollectionName).doc(getCurrentUser().uid);
         await ref.get().then(function(doc){
-            guestList = doc.data['guest']
+            guestList = doc.data()["guest"]
+            console.log(doc.data()[["guest"]])
             
             if (guestList == undefined){
                 guestList = [playlistId];
             }else{
-                if (guestList.indexOf(playlistId) != -1){ //prevents duplicates
+                console.log("Something Exists")
+                if (guestList.indexOf(playlistId) == -1){ //prevents duplicates
+                    console.log("Pushed")
                     guestList.push(playlistId);
                 }
                 
             }
+            console.log("About to write to fb")
             ref.set({guest: guestList}, {merge: true}); //write new list to firebase
         }).catch(function(err) { //error handler
             console.error("Error when writing to userCollection: " + err)
@@ -176,5 +239,16 @@ export const joinAsGuest = async(playlistId) => {
         
     }
 
-    
+    //return the playlist object
+    return playlistDoc
+   
 }
+
+export const updateLocationInFirebase = (lat, long) => {
+    require('firebase/firestore');
+    const geoPoint = new firebase.firestore.GeoPoint(lat, long);
+    console.log("Logging User Location ")
+    setValueFromUserInDatabase(getCurrentUser(), "location", geoPoint);
+
+}
+

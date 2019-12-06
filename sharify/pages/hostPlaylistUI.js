@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import { View, Button, Text, ScrollView, AsyncStorage } from 'react-native';
-import firebase from 'firebase';
-import { styles } from '../stylesheet.js'
-import { createNewPlaylist, getValidSPObj, getUserTopPlaylists, getUserTopTracks, testRec } from "../spotifyAuth.js";
+import { View} from 'react-native';
+import { getValidSPObj} from "../spotifyAuth.js";
+import{createAsHost} from "../firebaseHelper.js"
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+
+import ShowPlaylists from "../src/components/ShowPlaylists.js"
+import CreatePlaylistButton from "../src/components/CreatePlaylistButton.js"
+
 
 export default class hostPage extends Component {
     static navigationOptions = {
-        title: 'Host Page',
+        title: 'Host',
+        headerStyle: {
+            backgroundColor : '#070600',
+            //backgroundColor : '#FCA311',
+            
+          },
+          headerTintColor : 'white'
       };
 
     constructor(props) {
@@ -41,29 +51,50 @@ export default class hostPage extends Component {
             timeRange : "medium_term"
 
          }
-}
+    }
+
+    
 
     render() {
-        return (
-            <View style = {styles.container}>
-            <Text color = "white" >{this.state.tempVar}</Text>
-            <View style={styles.buttonText}>
-            <Button title="Create a Playlist" color = "white" onPress={this._generatePlaylist}/>
-            </View>
-            <View style={styles.buttonText}>
-            <Button title="Grab User Data for Items Below (optional)" color = "white" onPress={this._getUserData} />
-            </View>
-            <View style={styles.buttonText}>
-            <Button title="Resume Playback on Active Device" color = "white" onPress={this._resumePlayback}/>
-            </View>
-            <View style={styles.buttonText}>
-            <Button title="Add Defined Songs to a Playlist" color = "white" onPress={this._addToPlaylists}/>
-            </View>
-            <View style={styles.buttonText}>
-            <Button title="Contribute Your Favorites to Playlist" color = "white" onPress={this._addTopTracksToPlaylists}/>
-            </View>
+        const config = {
+            velocityThreshold: 0.2,
+            directionalOffsetThreshold: 80
+          };
+          const {navigate} = this.props.navigation;
+        
+       return (
+            
+            <View style={{backgroundColor : "#1D1C17"}}>
+                <GestureRecognizer
+                onSwipeLeft={() => navigate("JoinPage")}
+                config={config}
+                >
+                    
+                    <View style={{height : '80%', marginBottom : 5}}>
+                        <ShowPlaylists
+                            hosted = {true}
+                        />
+                    </View>
+                    <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
+                        <CreatePlaylistButton 
+                            onPress = {this._generatePlaylist}
+                            textStyle = {{
+                                color:'white',
+                                fontWeight: 'bold',
+                                fontSize: 30,
+                        
+                            }}
+                        />
+                    </View>
+                </GestureRecognizer>
             </View>
         );
+    }
+
+    onSwipeRight(gestureState) {
+        const navigate = this.props.navigation;
+        alert("Right Swipe!")
+        navigate("JoinPage")
     }
 
     _getUserData = async () => {
@@ -92,33 +123,20 @@ export default class hostPage extends Component {
         
             };
 
-    // This feature was moved to joinerPlaylistUI page but left here just in case (it is not callable from UI now)
-    _followPlaylist = async () => {
-
-        const sp = await getValidSPObj();
-        const { id: userId } = await sp.getMe(); 
-        
-        sp.followPlaylist(this.state.playlist_id, {public:false});
-        
-                this.setState({
-                    "tempVar": "You just followed a playlist created by a Sharify user."
-                }, () => {
-                });
-        
-            };
 
     _generatePlaylist = async () => {
 
-        const sp = await getValidSPObj();
-        const { id: userId } = await sp.getMe(); 
+        //createNewPlaylist(this.state.name, this.state.description, this.state.isPublic)
+        createAsHost(this.state.name, this.state.description, this.state.isPublic)
 
+        //sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
         
-        sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
-        
+
             this.setState({
                 "tempVar": "You just created a collaborative playlist."
             }, () => {
             });
+        alert("Playlist " + this.state.name + " created!")
     
         };
 

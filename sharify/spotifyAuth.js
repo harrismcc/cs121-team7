@@ -240,11 +240,40 @@ export const getRecs = async (floats, songIDList) => {
 }
 
 // creates a playlist in a user's account
-export const createNewPlaylist = async () => {
-  const sp = await getValidSPObj();
-  //const { id: userId } = await sp.getMe();
-  const { items: tracks } = await sp.getMyTopTracks({ limit: 50 });
-  return tracks;
+export const createNewPlaylist = async (name, description, isPublic) => {
+        const sp = await getValidSPObj();
+        const { id: userId } = await sp.getMe(); 
+
+        var bearer = 'Bearer ' + sp.getAccessToken();
+        var resultId = ""
+        let data = {
+            method: 'POST',
+            body: JSON.stringify({
+                name,
+                description,
+                public : isPublic
+            }),
+            headers: {
+                'Authorization': bearer,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }
+
+        //create proper spotify API link
+        me = await sp.getMe()
+        link = me["href"] + "/playlists"
+        
+        
+        await fetch(link, data)
+          .then((response) => {
+            resultId = response["headers"]["map"]["location"]
+            resultId = resultId.replace("https://api.spotify.com/v1/playlists/", "")
+          
+          });
+
+        console.log(resultId);
+        return resultId;
 }
 
 //an unfinished function to search for a track

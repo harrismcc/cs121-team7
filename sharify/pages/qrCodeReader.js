@@ -7,6 +7,12 @@ import {joinAsGuest} from '../firebaseHelper.js'
 export class QrCodeReader extends React.Component {
     static navigationOptions = {
       title: 'Qr Code Join',
+      headerStyle: {
+        backgroundColor : '#070600',
+        //backgroundColor : '#FCA311',
+        
+      },
+      headerTintColor : 'white'
     };
     
     async componentDidMount() {
@@ -38,8 +44,9 @@ export class QrCodeReader extends React.Component {
                 flex: 1,
                 flexDirection: 'column',
                 justifyContent: 'flex-end',
+                backgroundColor : "#1D1C17"
                 }}>
-                    <View style={{width: '100%', height: '90%'}}>
+                    <View style={{width: '100%', height: '100%'}}>
                     <BarCodeScanner
                     onBarCodeScanned={scanned ? undefined : this.onSuccess}
                     style={StyleSheet.absoluteFillObject}
@@ -68,7 +75,7 @@ export class QrCodeReader extends React.Component {
         pure = data.replace("sharify://", "");
 
         if (data != pure){
-            joinAsGuest(pure);
+            joinAsGuest(pure).then((playlist) => {console.log(JSON.stringify(playlist));});
             alert(`${data} has been scanned and joined!`);
             this.setState({scanned : true})
         }else{
