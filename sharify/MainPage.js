@@ -30,6 +30,8 @@ export class MainScreen extends React.Component {
     this.state = {
       result: null,
     };
+
+    console.disableYellowBox = true;
    }
    
    render() {

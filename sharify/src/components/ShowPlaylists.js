@@ -13,7 +13,7 @@ export default class ShowPlaylists extends Component {
             hostingList : []
         }
         1
-        //console.disableYellowBox = true;
+        console.disableYellowBox = true;
         
     }
 
@@ -29,6 +29,8 @@ export default class ShowPlaylists extends Component {
             this._getUsersGuestPlaylists()
             this.setState({title : "My Joined Playlists"})
         }
+
+        this.timer = setInterval(()=> this._getUsersHostedPlaylists(), 5000)//5 seconds
         
     }
     
@@ -47,7 +49,7 @@ export default class ShowPlaylists extends Component {
 
     _getUsersHostedPlaylists = async() => {
         hostList = await getValueFromUserInDatabase()
-        if(hostList){
+        if(hostList != this.state.hostingList && hostList){
             this.setState({hostingList : hostList["hosting"]})
         }
         
@@ -56,7 +58,7 @@ export default class ShowPlaylists extends Component {
 
     _getUsersGuestPlaylists = async() => {
         hostList = await getValueFromUserInDatabase()
-        if (hostList){
+        if (hostList && hostList != this.state.hostingList){
             this.setState({hostingList : hostList["guest"]})
         }
         

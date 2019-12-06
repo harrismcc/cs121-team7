@@ -31,15 +31,15 @@ export default class joinerPage extends Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View style={{backgroundColor : "#1D1C17"}}>
+            <View style={{backgroundColor : "#1D1C17", height:"100%"}}>
                 
-                <View style={{height : '80%', marginBottom : 5, marginTop : 20}}>
+                <View style={{height : '75%', marginBottom : 5, marginTop : 20}}>
                     <ShowPlaylists
                         hosted = {false}
                         navigation={this.props.navigation}
                     />
                 </View>
-                <View style={{alignItems : 'center', justifyContent : 'center', height : '20%', width : '100%'}}>
+                <View style={{alignItems : 'center', height : '20%', width : '100%'}}>
                     <CreatePlaylistButton 
                         buttonText = {"Join Playlist"}
                         onPress = {() => navigate('QrCodePage')}

@@ -51,6 +51,7 @@ export default class hostPage extends Component {
             timeRange : "medium_term"
 
          }
+         console.disableYellowBox = true;
     }
 
     
@@ -64,8 +65,8 @@ export default class hostPage extends Component {
         
        return (
             
-            <View style={{backgroundColor : "#1D1C17"}}>
-                    <View style={{height : '80%', marginBottom : 5, marginTop : 20}}>
+            <View style={{backgroundColor : "#1D1C17", height:"100%"}}>
+                    <View style={{height : '75%', marginBottom : 5, marginTop : 20}}>
                         <ShowPlaylists
                             navigation={this.props.navigation}
                             hosted = {true}
@@ -82,6 +83,7 @@ export default class hostPage extends Component {
                             }}
                         />
                     </View>
+                    
             </View>
         );
     }
