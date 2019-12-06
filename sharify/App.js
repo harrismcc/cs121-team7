@@ -70,6 +70,21 @@ const JoinNavigator = createStackNavigator({
 })},
 )
 
+const tabOptions = {    
+  tabBarOptions: {
+      activeTintColor:'green',
+      inactiveTintColor:'#yellow',
+      style:{
+          backgroundColor:'blue',
+          borderTopWidth:1,
+          borderTopColor:'#D3D3D3'
+      },
+      indicatorStyle: {
+          backgroundColor: 'red',
+      },
+  }
+}
+
 const bottomTabNavigator = createBottomTabNavigator(
   {
     HostPage : {screen: HostNavigator},
@@ -85,13 +100,7 @@ const bottomTabNavigator = createBottomTabNavigator(
     //   LoginPage: {screen: LoginFormPage},
     //   QrCodePage : {screen: QrCodeReader},
     // }
-  },
-  {
-    
-    headerStyles: {
-      backgroundColor : "green",
-    }
-  }
+  },tabOptions,
 );
 
 //create app from navigator
