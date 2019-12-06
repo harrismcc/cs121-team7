@@ -52,6 +52,12 @@ const bottomTabNavigator = createBottomTabNavigator(
     //   LoginPage: {screen: LoginFormPage},
     //   QrCodePage : {screen: QrCodeReader},
     // }
+  },
+  {
+    
+    headerStyles: {
+      backgroundColor : "green",
+    }
   }
 );
 
