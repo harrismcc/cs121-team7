@@ -3,14 +3,14 @@ import { View, Image, Text, ScrollView, StyleSheet, TouchableHighlight, Alert } 
 import {getPlaylistFromId, getPlaylistImageURL, getValueFromUserInDatabase} from "../../firebaseHelper.js"
 
 
-export default class ShowPlaylists extends Component {
+export default class MainPageShow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            topMargin : 45,
-            title : "My Hosted Playlists",
+            title : "My Playlists",
             test : "abc",
-            hostingList : []
+            hostingList : [],
+            topMargin : 45,
         }
         
     }
@@ -19,12 +19,12 @@ export default class ShowPlaylists extends Component {
 
         if (this.props.hosted){
             this._getUsersHostedPlaylists()
-            this.setState({title : "My Hosted Playlists"})
+            this.setState({title : "My Playlists"})
         }
 
         else{
             this._getUsersGuestPlaylists()
-            this.setState({title : "My Joined Playlists"})
+            this.setState({title : "My Playlists"})
         }
         
     }
@@ -75,7 +75,7 @@ export default class ShowPlaylists extends Component {
         }
     }
 }
-ShowPlaylists.defaultProps  = {
+MainPageShow.defaultProps  = {
     hosted : true
 }
 

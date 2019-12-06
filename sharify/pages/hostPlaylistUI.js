@@ -66,7 +66,7 @@ export default class hostPage extends Component {
             
             <View style={{backgroundColor : "#1D1C17"}}>
                 <GestureRecognizer
-                onSwipeLeft={() => navigate("JoinPage")}
+                onSwipeRight={() => navigate("MainPage")}
                 config={config}
                 >
                     

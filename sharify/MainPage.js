@@ -7,7 +7,7 @@ import { getValidSPObj} from "./spotifyAuth.js";
 
 // This page also has the buttons to navigate to other pages
 
-import ShowPlaylists from "./src/components/ShowPlaylists.js"
+import MainPageShow from "./src/components/MainPageShow.js"
 import CreatePlaylistButton from "./src/components/CreatePlaylistButton.js"
 //StyleSheet
 import {styles} from './stylesheet.js'
@@ -19,7 +19,8 @@ export class MainScreen extends React.Component {
   
     static navigationOptions = {
       title: 'Sharify',
-      backgroundColor: "#555555",
+      backgroundColor: "#555555", 
+      header : null,
     };
   
    constructor(props) {
@@ -41,11 +42,12 @@ export class MainScreen extends React.Component {
       <View style={{backgroundColor : "#1D1C17"}}>
                 <GestureRecognizer
                 onSwipeLeft={() => navigate("JoinPage")}
+                onSwipeRight={() => navigate("HostPage")}
                 config={config}
                 >
                     
                     <View style={{height : '80%', marginBottom : 5}}>
-                        <ShowPlaylists
+                        <MainPageShow
                             hosted = {true}
                         />
                     </View>

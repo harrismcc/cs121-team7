@@ -30,19 +30,22 @@ const MainNavigator = createStackNavigator({
   LoginPage: {screen: LoginFormPage},
   MusicPage: {screen: PlaySong},
   RecsPage : {screen: RecsPage},
-  JoinPage : {screen: JoinPage},
-  HostPage : {screen: HostPage},
-  QrCodePage : {screen: QrCodeReader}
+  // JoinPage : {screen: JoinPage},
+  // HostPage : {screen: HostPage},
+  QrCodePage : {screen: QrCodeReader},
   
 });
 
+const HostNavigator = createStackNavigator({
+  QrCodePage : {screen: QrCodeReader}
+})
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
     HostPage : {screen: HostPage},
-    MainPage: {screen: MainScreen},
+    MainPage: {screen: MainNavigator},
     JoinPage : {screen: JoinPage},
-    LoginPage: {screen: LoginFormPage},
+
   },
   {
     initialRouteName: 'MainPage',
