@@ -28,8 +28,8 @@ const MainNavigator = createStackNavigator({
   MainPage: {screen: MainScreen},
   Home: {screen: ShowPlaylists},
   SpotifyAuth: {screen: AuthorizeWithSpotify},
-  HostPage : {screen: HostPage},
-  JoinPage : {screen: JoinPage},
+  // HostPage : {screen: HostPage},
+  // JoinPage : {screen: JoinPage},
   
   LoginPage: {screen: LoginFormPage},
   MusicPage: {screen: PlaySong},
@@ -39,7 +39,7 @@ const MainNavigator = createStackNavigator({
   DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
 },
 {navigationOptions: ({ navigation }) => ({
-  tabBarVisible: navigation.state.index < 4,
+  tabBarVisible: navigation.state.index < 2,
 })},
 );
 
