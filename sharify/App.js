@@ -16,8 +16,7 @@ import PlaySong from "./pages/playSong.js"
 import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
 import CreatePage from "./pages/createNew.js"
-
-
+import DisplaySinglePlaylist from "./pages/displaySinglePlaylist.js"
 
 
 //Init navigator and add pages
@@ -32,6 +31,7 @@ const MainNavigator = createStackNavigator({
   HostPage : {screen: HostPage},
   QrCodePage : {screen: QrCodeReader},
   CreatePage : {screen : CreatePage},
+  DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
   
 });
 

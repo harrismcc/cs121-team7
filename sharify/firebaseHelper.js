@@ -23,22 +23,24 @@ export const getCurrentUser = () => {
     //returns bool, true if user was created, false if user already exists
 export const createNewUserInDatabase = (user) => {
         require('firebase/firestore');
-        console.log("User ID: " + user.uid); //TODO: Delete this after testing is done
         const ref = firebase.firestore().collection(globalCollectionName);
         
         //check to see if user already exists
         getValueFromUserInDatabase(user).then((data) => {
-            console.log(data)
+            setValueFromUserInDatabase(user, "testval", "abc") //TODO: does this assist in the initial creation of a user object?
 
             //if the data is undefined, the user is not in the db
                 //and so we create a new value
-            if(data == undefined){
+            if(!(data)){
                 //create new doc for the user, and add default values
                 ref.doc(user.uid).set({
-                    test:'value' //temp test value
+                    test:'value',
+                    guest : [],
+                    hosting : []
                 });
                 return true; //return true because user doesn't exist
             }else{
+                console.log("doc was not empty")
                 return false; //return false because user already exists
             }
         });
@@ -110,7 +112,6 @@ export const getPlaylistImageURL = async(id) => {
     return await getValidSPObj().then(sp => {
         return sp.getPlaylist(spotifyID).then(images => {
             const myImages = images["images"]
-            console.log("My Images: " + JSON.stringify(myImages))
 
             if (myImages[0]) {
                 return myImages[0]["url"]
@@ -141,6 +142,7 @@ export const createAsHost = async(playlistName, playlistDescription) => {
     newId = "";
 
     test = await ref.add({
+        guests : [],
         playlistSpotifyID: playlistId,
         playlistSpotifyName : playlistName,
         playlistDescription : playlistDescription,
@@ -244,12 +246,22 @@ export const joinAsGuest = async(playlistId) => {
     return playlistDoc
    
 }
+export const getGuestList = async(playlistId) => {
+    require('firebase/firestore');
+    const ref = firebase.firestore().collection(playlistCollectionName);
+    playlistDoc = ref.doc(playlistId);
+    //const userId = getCurrentUser().uid;
+    const myData = await playlistDoc.get()
+    console.log("myData: " + JSON.stringify(myData))
+    return myData["guest"]
 
+
+}
 export const updateLocationInFirebase = (lat, long) => {
     require('firebase/firestore');
     const geoPoint = new firebase.firestore.GeoPoint(lat, long);
     console.log("Logging User Location ")
     setValueFromUserInDatabase(getCurrentUser(), "location", geoPoint);
-
+    
 }
 

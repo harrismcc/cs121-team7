@@ -1,7 +1,9 @@
 import React, { Component} from 'react';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
-import{createAsHost} from "../firebaseHelper.js"
-import QRCode from 'react-native-qrcode-svg';
+import { View, TextInput, Text, StyleSheet, Image, ScrollView, FlatList } from 'react-native';
+import{createAsHost, getGuestList} from "../firebaseHelper.js"
+import ReactDOM from 'react-dom';
+import firebase from 'firebase'
+
 
 import CreatePlaylistButton from "../src/components/CreatePlaylistButton.js"
 
@@ -22,13 +24,19 @@ export default class CreatePage extends Component {
         super(props)
         this.state = {
             isPublic : 'false',
-            newId : "kHaj8ahfg3ak",
+            newId : null,
             nameTextBox : null,
             descTextBox : null,
-            page : "namePage"
+            page : "namePage",
+            guestList : []
         }
         
+    console.disableYellowBox = true;
 
+    };
+    componentDidMount(){
+        this._refreshGuestList()
+        this.timer = setInterval(()=> this._refreshGuestList(), 1000)//5 seconds
     }
 
     render(){
@@ -38,7 +46,7 @@ export default class CreatePage extends Component {
             return this._getAddUserPage()
         }
         
-    }
+    };
 
     _onChangeName = (text) => {
         this.setState({nameTextBox : text})
@@ -48,7 +56,6 @@ export default class CreatePage extends Component {
     }
 
     _nextButtonPressed = () => {
-        alert("Next Button Pressed")
         this._generatePlaylist()
         this.setState({page : "addPeople"})
     }
@@ -57,10 +64,11 @@ export default class CreatePage extends Component {
         //TODO: Does commenting this line mean that playlist aren't created?
         //createNewPlaylist(this.state.name, this.state.description, this.state.isPublic)
         newId = await createAsHost(this.state.nameTextBox, this.state.descTextBox, this.state.isPublic)
-
-        alert("Playlist " + this.state.nameTextBox + " created!")
+      
 
         this.setState({newId : newId})
+        this._refreshGuestList()
+        
     };
 
 
@@ -105,28 +113,56 @@ export default class CreatePage extends Component {
     }
 
     _getAddUserPage = () => {
+        const {navigate} = this.props.navigation;
         return (
             <View style={styles.container}>
-                <Text style={styles.mainText}>
-                    {this.state.newId}
-                </Text>
-                <QRCode
-                //QR code value
-                value={"sharify://" + this.state.newId}
-                size={250}
-                color="#1D1C17"
-                backgroundColor="white"
-                logo={{
-                    url:
-                    'https://raw.githubusercontent.com/AboutReact/sampleresource/master/logosmalltransparen.png',
-                }}
-                logoSize={30}
-                logoMargin={2}
-                logoBorderRadius={15}
-                logoBackgroundColor="yellow"
-                />
+                <View style={{justifyContent : 'center', alignItems : 'center'}}>
+                    <Text style={styles.titleText}>
+                        Add Your Friends!
+                    </Text>
+                    <Image
+                        source={{uri : "https://qrickit.com/api/qr.php?qrsize=300&&fgcolor=1D1C17&bgdcolor=59C9A5&d=sharify%3A%2F%2F" + this.state.newId}}
+                        style={{width:200,height:200}}
+                    
+                    />
+                </View>
+                <View>
+                <Text style={styles.mainText}>Currently Joined:</Text>
+                <ScrollView style={{height : '30%'}}>
+                    <FlatList
+                        data = {this.state.guestList}
+                        renderItem={({item}) => <Text style={styles.mainText}>{item}</Text>}
+                    />
+                </ScrollView>
+                <View style={{justifyContent : 'center', alignItems : 'center'}}>
+                    <CreatePlaylistButton
+                        buttonText = {"Done1"}
+                        onPress = {() => navigate('HostPage')}
+                        textStyle = {{
+                            color:'white',
+                            fontWeight: 'bold',
+                            fontSize: 30,
+                    
+                        }}
+                    />
+                </View>
+                </View>
             </View>
         )
+    }
+
+    _refreshGuestList = () => {
+        if(this.state.newId){
+            require('firebase/firestore');
+            const ref = firebase.firestore().collection("playlists").doc(this.state.newId);
+            ref.get().then((doc) => {
+                if (doc.exists && doc.data()["guests"] != this.state.guestList){
+                    this.setState({guestList : doc.data()["guests"]})
+                }
+            })
+        }
+        
+        
     }
 
 }

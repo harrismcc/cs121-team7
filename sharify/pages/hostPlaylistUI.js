@@ -65,13 +65,9 @@ export default class hostPage extends Component {
        return (
             
             <View style={{backgroundColor : "#1D1C17"}}>
-                <GestureRecognizer
-                onSwipeLeft={() => navigate("JoinPage")}
-                config={config}
-                >
-                    
                     <View style={{height : '80%', marginBottom : 5}}>
                         <ShowPlaylists
+                            navigation={this.props.navigation}
                             hosted = {true}
                         />
                     </View>
@@ -86,14 +82,13 @@ export default class hostPage extends Component {
                             }}
                         />
                     </View>
-                </GestureRecognizer>
             </View>
         );
     }
 
     onSwipeRight(gestureState) {
         const navigate = this.props.navigation;
-        alert("Right Swipe!")
+
         navigate("JoinPage")
     }
 
@@ -129,7 +124,6 @@ export default class hostPage extends Component {
         //createNewPlaylist(this.state.name, this.state.description, this.state.isPublic)
         //newId = await createAsHost(this.state.name, this.state.description, this.state.isPublic)
 
-        alert("Playlist " + this.state.name + " created!")
         const {navigate} = this.props.navigation
         //this.navigate.bind(this)
         navigate("CreatePage") //navigate to new page
