@@ -125,19 +125,14 @@ export default class hostPage extends Component {
 
 
     _generatePlaylist = async () => {
-
+        //TODO: Does commenting this line mean that playlist aren't created?
         //createNewPlaylist(this.state.name, this.state.description, this.state.isPublic)
-        createAsHost(this.state.name, this.state.description, this.state.isPublic)
+        //newId = await createAsHost(this.state.name, this.state.description, this.state.isPublic)
 
-        //sp.createPlaylist(userId, {"name" : this.state.name, "public" : this.state.isPublic, "collaborative" : this.state.isCollab, "description" : this.state.description});
-        
-
-            this.setState({
-                "tempVar": "You just created a collaborative playlist."
-            }, () => {
-            });
         alert("Playlist " + this.state.name + " created!")
-    
+        const {navigate} = this.props.navigation
+        //this.navigate.bind(this)
+        navigate("CreatePage") //navigate to new page
         };
 
     _addToPlaylists = async () => {

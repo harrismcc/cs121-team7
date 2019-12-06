@@ -15,6 +15,7 @@ import { MainScreen } from "./MainPage.js"
 import PlaySong from "./pages/playSong.js"
 import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
+import CreatePage from "./pages/createNew.js"
 
 
 
@@ -29,7 +30,8 @@ const MainNavigator = createStackNavigator({
   RecsPage : {screen: RecsPage},
   JoinPage : {screen: JoinPage},
   HostPage : {screen: HostPage},
-  QrCodePage : {screen: QrCodeReader}
+  QrCodePage : {screen: QrCodeReader},
+  CreatePage : {screen : CreatePage},
   
 });
 

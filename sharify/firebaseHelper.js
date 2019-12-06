@@ -179,6 +179,7 @@ export const createAsHost = async(playlistName, playlistDescription) => {
 
     //STEP 4: create new playlist in spotify
     //TODO: complete step 4 with existing functions
+    return newId
 }
 
 //joins the current user as a guest to playlist 'playlistId'

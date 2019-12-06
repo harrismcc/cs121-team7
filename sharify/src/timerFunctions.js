@@ -2,7 +2,7 @@ import React from 'react';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 import {updateLocationInFirebase, setValueFromUserInDatabase, getCurrentUser} from '../firebaseHelper'
-import {getUserFloats} from "../../iterRec.js"
+import {getUserFloats} from "../iterRec.js"
 
 export const startTimerInstance = (minutes) => {
     //only run timer functions if user is logged in
