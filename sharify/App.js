@@ -19,7 +19,7 @@ import HostPage from "./pages/hostPlaylistUI.js"
 import JoinPage from "./pages/joinerPlaylistUI.js"
 import CreatePage from "./pages/createNew.js"
 import hostPage from './pages/hostPlaylistUI.js';
-
+import DisplaySinglePlaylist from "./pages/displaySinglePlaylist.js";
 
 
 
@@ -28,26 +28,52 @@ const MainNavigator = createStackNavigator({
   MainPage: {screen: MainScreen},
   Home: {screen: ShowPlaylists},
   SpotifyAuth: {screen: AuthorizeWithSpotify},
+  HostPage : {screen: HostPage},
+  JoinPage : {screen: JoinPage},
+  
   LoginPage: {screen: LoginFormPage},
   MusicPage: {screen: PlaySong},
   RecsPage : {screen: RecsPage},
-  JoinPage : {screen: JoinPage},
-  HostPage : {screen: HostPage},
   QrCodePage : {screen: QrCodeReader},
   CreatePage : {screen : CreatePage},
   DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
- 
-});
+},
+{navigationOptions: ({ navigation }) => ({
+  tabBarVisible: navigation.state.index < 4,
+})},
+);
 
 const HostNavigator = createStackNavigator({
-  QrCodePage : {screen: QrCodeReader}
-})
+  HostPage : {screen: HostPage},
+  QrCodePage : {screen: QrCodeReader},
+  SpotifyAuth: {screen: AuthorizeWithSpotify},
+  LoginPage: {screen: LoginFormPage},
+  CreatePage : {screen : CreatePage},
+  DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
+},
+    {navigationOptions: ({ navigation }) => ({
+      tabBarVisible: navigation.state.index < 1,
+    })},
+)
+
+const JoinNavigator = createStackNavigator({
+  JoinPage : {screen: JoinPage},
+  QrCodePage : {screen: QrCodeReader},
+  SpotifyAuth: {screen: AuthorizeWithSpotify},
+  LoginPage: {screen: LoginFormPage},
+  QrCodePage : {screen: QrCodeReader},
+  DisplaySinglePlaylistPage : {screen : DisplaySinglePlaylist},
+},
+{navigationOptions: ({ navigation }) => ({
+  tabBarVisible: navigation.state.index < 1,
+})},
+)
 
 const bottomTabNavigator = createBottomTabNavigator(
   {
-    HostPage : {screen: HostPage},
+    HostPage : {screen: HostNavigator},
     MainPage: {screen: MainNavigator},
-    JoinPage : {screen: JoinPage},
+    JoinPage : {screen: JoinNavigator},
 
   },
   {

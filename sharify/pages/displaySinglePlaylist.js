@@ -7,12 +7,13 @@ import firebase from 'firebase'
 
 export default class DisplaySinglePlaylist extends Component {
     static navigationOptions = {
-        title: this.state.playlistObject.playlistSpotifyName,
+        title: "",
         headerStyle: {
             backgroundColor : '#070600',
             
           },
-          headerTintColor : 'white'
+          headerTintColor : 'white',
+          tabBarVisible : false,
       };
     constructor(props){
         super(props)
