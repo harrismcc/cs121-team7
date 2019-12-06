@@ -45,10 +45,17 @@ export class MainScreen extends React.Component {
                 onSwipeRight={() => navigate("HostPage")}
                 config={config}
                 >
-                    <View style={{height : '100%', marginBottom : 5}}>
-                        <MainPageShow
-                            hosted = {true}
-                        />
+                    <View style={{height : '100%', alignItems : 'center', justifyContent : 'center'}}>
+                        <Image 
+                          style={{width:300, height:300}}
+                          source={require("./assets/icon.png")}
+                        ></Image>
+                        <Text style={{
+                          marginLeft : 5,
+                          color:'white',
+                          fontWeight: 'bold',
+                          fontSize: 70,
+                        }}>Sharify</Text>
                     </View>
                 </GestureRecognizer>
                 <View style={styles.submitButton}>
