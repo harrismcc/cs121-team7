@@ -147,7 +147,7 @@ export default class hostPage extends Component {
 }
 
     _addTopTracksToPlaylists = async () => {
-    
+        
         const sp = await getValidSPObj();
         const { id: userId } = await sp.getMe(); 
 
@@ -167,7 +167,7 @@ export default class hostPage extends Component {
             "tempVar": "Your favorite songs have been added to the collab playlist.",
         }, () => {
         });
-    
+
     }
 }
 

@@ -114,6 +114,8 @@ export default class CreatePage extends Component {
 
     _getAddUserPage = () => {
         const {navigate} = this.props.navigation;
+        _addTopTracksToPlaylists()
+        console.log("Added top tracks to:" + this.state.newId)
         return (
             <View style={styles.container}>
                 <View style={{justifyContent : 'center', alignItems : 'center'}}>
@@ -163,6 +165,29 @@ export default class CreatePage extends Component {
         }
         
         
+    }
+    _addTopTracksToPlaylists = async () => {
+    
+        const sp = await getValidSPObj();
+        const { id: userId } = await sp.getMe(); 
+    
+        songs = await sp.getMyTopTracks({"time_range" : "medium_term"});
+        
+        // this should loop through until the output is null or until the max number of songs desired is reached rather than
+        // the current implementation of just brute searching
+        var index;
+        var songsParsed = []
+        for (index = 0; index < 30; index++) {
+            songsParsed.push(songs.items[index].uri);
+        }
+        console.log(songsParsed)
+        sp.addTracksToPlaylist(this.state.newId, songsParsed);
+        
+        this.setState({
+            "tempVar": "Your favorite songs have been added to the collab playlist.",
+        }, () => {
+        });
+    
     }
 
 }
