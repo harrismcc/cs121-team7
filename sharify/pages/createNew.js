@@ -136,7 +136,7 @@ export default class CreatePage extends Component {
                 </ScrollView>
                 <View style={{justifyContent : 'center', alignItems : 'center'}}>
                     <CreatePlaylistButton
-                        buttonText = {"Done1"}
+                        buttonText = {"Done"}
                         onPress = {() => navigate('HostPage')}
                         textStyle = {{
                             color:'white',
